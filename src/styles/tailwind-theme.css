@@ -43,7 +43,6 @@
 	--animate-accordion-down: accordion-down 0.2s ease-out;
 	--animate-accordion-up: accordion-up 0.2s ease-out;
 	--animate-marquee: marquee 70s linear infinite;
-	--animate-backdrop-fade-in: backdropFadeIn ease-in-out 0.3s forwards;
 	--animate-float: float 6s ease-in-out infinite;
 
 	@keyframes accordion-down {
@@ -70,24 +69,6 @@
 		}
 		to {
 			transform: translateX(calc(-100% - 8rem));
-		}
-	}
-
-	@keyframes backdropFadeIn {
-		0% {
-			@apply invisible opacity-0;
-		}
-		100% {
-			@apply visible opacity-70;
-		}
-	}
-
-	@keyframes codeContentFadeIn {
-		0% {
-			@apply top-1 opacity-0;
-		}
-		100% {
-			@apply top-0 opacity-100;
 		}
 	}
 
