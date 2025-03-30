@@ -118,7 +118,7 @@ const { class: className, animationDuration = 200, ...rest } = Astro.props as Pr
 		) as NodeListOf<HTMLElement>;
 		const themeToggleBtns = document.querySelectorAll(".theme-toggle");
 
-		let colorTheme = localStorage.getItem("colorTheme");
+		const colorTheme = localStorage.getItem("colorTheme");
 		// Set initial state without animations
 		if (colorTheme === "dark") {
 			themeToggleDarkIcons.forEach((themeToggleDarkIcon) => {

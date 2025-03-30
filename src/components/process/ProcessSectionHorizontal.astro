@@ -1,13 +1,13 @@
 ---
 import ProcessStep from "./ProcessStepHorizontal.astro";
 
-interface ProcessStep {
+interface ProcessStepProps {
 	title: string;
 	description: string;
 	icon: string;
 }
 
-const processSteps: ProcessStep[] = [
+const processSteps: ProcessStepProps[] = [
 	{
 		title: "Discovery Call",
 		description: "Initial consultation to understand your vision and goals",

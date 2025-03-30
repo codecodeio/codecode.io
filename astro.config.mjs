@@ -1,5 +1,6 @@
-import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
+
+import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import mdx from "@astrojs/mdx";
 import AutoImport from "astro-auto-import";
@@ -63,10 +64,8 @@ export default defineConfig({
 		},
 	},
 
-	// this is used by default with Starwind UI
+	// enables directly importing SVGs
 	experimental: {
-		svg: {
-			mode: "sprite",
-		},
+		svg: true,
 	},
 });

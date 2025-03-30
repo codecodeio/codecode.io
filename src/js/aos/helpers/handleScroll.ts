@@ -17,9 +17,7 @@ const removeClasses = (node, classes) =>
 	classes && classes.forEach((className) => node.classList.remove(className));
 
 const fireEvent = (eventName, data) => {
-	let customEvent;
-
-	customEvent = new CustomEvent(eventName, {
+	const customEvent = new CustomEvent(eventName, {
 		detail: data,
 	});
 
@@ -31,13 +29,13 @@ const fireEvent = (eventName, data) => {
  * @param {node} el         element
  * @param {int}  top        scrolled distance
  */
-const applyClasses = (el: any, top: number) => {
+const applyClasses = (el: AOSElement, top: number) => {
 	const { options, position, node } = el;
 
 	const hide = () => {
-		if (!el.animated) return;
+		if (!el.animated || !el.animation) return;
 
-		removeClasses(node, options.animatedClassNames);
+		removeClasses(node, options?.animatedClassNames);
 
 		// reverse animation for hiding
 		el.animation.reverse();
@@ -57,17 +55,20 @@ const applyClasses = (el: any, top: number) => {
 	};
 
 	const show = () => {
-		if (el.animated) return;
+		if (el.animated || !el.animation) return;
 
-		addClasses(node, options.animatedClassNames);
+		addClasses(node, options?.animatedClassNames);
 
 		// if animation is reversed (from hiding), reverse it back
 		if (el.animation.reversed) {
 			el.animation.reverse();
 		}
+
+		// play animation
 		el.animation.play();
 
 		fireEvent("aos:in", node);
+
 		if (el.options?.trigger) {
 			fireEvent(`aos:in:${el.options.trigger}`, node);
 		}
@@ -75,23 +76,25 @@ const applyClasses = (el: any, top: number) => {
 		el.animated = true;
 	};
 
-	if (options.mirror && top >= position.out && !options.once) {
+	if (
+		options?.mirror &&
+		position?.out !== undefined &&
+		position.out !== false &&
+		top >= position.out &&
+		!options?.once
+	) {
 		hide();
-	} else if (top >= position.in) {
+	} else if (position?.in !== undefined && top >= position.in) {
 		show();
-	} else if (el.animated && !options.once) {
+	} else if (el.animated && !options?.once) {
 		hide();
 	}
 };
 
 /**
  * Scroll logic - add or remove 'aos-animate' class on scroll
- *
- * @param  {array} $elements         array of elements nodes
- * @return {void}
  */
-const handleScroll = ($elements) =>
-	// $elements.forEach((el, i) => applyClasses(el, window.pageYOffset)); // deprecated
-	$elements.forEach((el, i) => applyClasses(el, window.scrollY));
+const handleScroll = (elements: AOSElement[]) =>
+	elements.forEach((el) => applyClasses(el, window.scrollY));
 
 export default handleScroll;

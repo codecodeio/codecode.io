@@ -50,7 +50,7 @@ const filteredHeadings = headings.filter((heading) => heading.depth <= levels + 
 
 	// Function that runs when the Intersection Observer fires
 	function setCurrent(e: IntersectionObserverEntry[]) {
-		var allSectionLinks = document.querySelectorAll(".toc-link");
+		const allSectionLinks = document.querySelectorAll(".toc-link");
 		e.map((i) => {
 			if (i.isIntersecting === true) {
 				allSectionLinks.forEach((link) => link.classList.remove("toc-current"));
@@ -72,7 +72,7 @@ const filteredHeadings = headings.filter((heading) => heading.depth <= levels + 
 		}
 
 		// Intersection Observer Options
-		let options: IntersectionObserverInit = {
+		const options: IntersectionObserverInit = {
 			root: null,
 			rootMargin: "-20% 0px -40% 0px",
 			threshold: [1],
@@ -109,5 +109,9 @@ const filteredHeadings = headings.filter((heading) => heading.depth <= levels + 
 	/* Hover effect */
 	.toc-link:hover {
 		@apply before:-translate-x-1 before:opacity-50;
+	}
+
+	.scroll-mt-20 {
+		scroll-margin-top: calc(var(--spacing) * 20);
 	}
 </style>
