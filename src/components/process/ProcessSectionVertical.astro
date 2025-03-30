@@ -4,13 +4,13 @@ import { Image } from "astro:assets";
 // components
 import VerticalProcessStep from "./ProcessStepVertical.astro";
 
-interface VerticalProcessStep {
+interface VerticalProcessStepProps {
 	title: string;
 	description: string;
 	icon: string;
 }
 
-const verticalProcessSteps: VerticalProcessStep[] = [
+const verticalProcessSteps: VerticalProcessStepProps[] = [
 	{
 		title: "Initial Consultation",
 		description:

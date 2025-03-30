@@ -64,10 +64,8 @@ export default defineConfig({
 		},
 	},
 
-	// this is used by default with Starwind UI
+	// enables directly importing SVGs
 	experimental: {
-		svg: {
-			mode: "sprite",
-		},
+		svg: true,
 	},
 });
