@@ -50,7 +50,7 @@ export default defineConfig({
 		compress({
 			HTML: true,
 			JavaScript: true,
-			CSS: true,
+			CSS: false, // enabling this can cause issues
 			Image: false, // astro:assets handles this. Enabling this can dramatically increase build times
 			SVG: false, // astro-icon handles this
 		}),
@@ -58,10 +58,6 @@ export default defineConfig({
 
 	vite: {
 		plugins: [tailwindcss()],
-		// stop inlining short scripts to fix issues with ClientRouter: https://github.com/withastro/astro/issues/12804
-		build: {
-			assetsInlineLimit: 0,
-		},
 	},
 
 	// enables directly importing SVGs
