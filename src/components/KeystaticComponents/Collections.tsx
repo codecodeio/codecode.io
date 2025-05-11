@@ -65,6 +65,10 @@ const Blog = (locale: (typeof locales)[number]) =>
 				itemLabel: (props) => props.value,
 				// validation: { length: { min: 1 } },
 			}),
+			mappingKey: fields.text({
+				label: "Mapping Key",
+				description: "This is used to map entries between languages.",
+			}),
 			content: fields.mdx({
 				label: "Content",
 				options: {
@@ -193,6 +197,10 @@ const OtherPages = (locale: (typeof locales)[number]) =>
 				label: "Description",
 				validation: { isRequired: true, length: { min: 1, max: 160 } },
 			}),
+			mappingKey: fields.text({
+				label: "Mapping Key",
+				description: "This is used to map entries between languages.",
+			}),
 			draft: fields.checkbox({
 				label: "Draft",
 				description: "Set this page as draft to prevent it from being published.",
@@ -278,6 +286,10 @@ const Projects = (locale: (typeof locales)[number]) =>
 			order: fields.number({
 				label: "Display Order",
 				description: "Optional: Use to control the order of projects (lower numbers appear first)",
+			}),
+			mappingKey: fields.text({
+				label: "Mapping Key",
+				description: "This is used to map entries between languages.",
 			}),
 			draft: fields.checkbox({
 				label: "Draft",
@@ -447,6 +459,10 @@ const Resume = (locale: (typeof locales)[number]) =>
 					itemLabel: (props) => `${props.fields.name.value} (${props.fields.category.value})`,
 				},
 			),
+			mappingKey: fields.text({
+				label: "Mapping Key",
+				description: "This is used to map entries between languages.",
+			}),
 		},
 	});
 
