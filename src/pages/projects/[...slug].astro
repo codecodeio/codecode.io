@@ -13,7 +13,10 @@ export async function getStaticPaths() {
 	});
 
 	// get rid of pages from other languages and remove locale from slug
-	const filteredProjects = filterCollectionByLanguage(projects, defaultLocale);
+	const filteredProjects = filterCollectionByLanguage(
+		projects,
+		defaultLocale,
+	) as CollectionEntry<"projects">[];
 
 	return filteredProjects.map((project) => ({
 		params: { slug: project.id },
