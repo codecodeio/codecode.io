@@ -4,6 +4,9 @@ import ProjectCardSideImage from "@components/projects/ProjectCardSideImage.astr
 import { filterCollectionByLanguage } from "@js/localeUtils";
 import { getLocaleFromUrl } from "@js/localeUtils";
 import { getCollection } from "astro:content";
+import { type CollectionEntry } from "astro:content";
+
+import { getLocalizedRoute } from "@/js/translationUtils";
 
 const currLocale = getLocaleFromUrl(Astro.url);
 
@@ -11,7 +14,10 @@ const projects = await getCollection("projects", ({ data }) => {
 	// filter out draft projects
 	return data.draft !== true;
 });
-const filteredProjects = filterCollectionByLanguage(projects, currLocale);
+const filteredProjects = filterCollectionByLanguage(
+	projects,
+	currLocale,
+) as CollectionEntry<"projects">[];
 const sortedProjects = filteredProjects.sort(
 	(a, b) => (a.data.order ?? Infinity) - (b.data.order ?? Infinity),
 );
@@ -40,7 +46,9 @@ const slicedProjects = sortedProjects.slice(0, 3); // Only show first 3 projects
 
 		<!-- View All Link -->
 		<div class="mt-20 flex justify-center">
-			<Button href="/projects" variant="primary" arrow="right"> View All Projects </Button>
+			<Button href={getLocalizedRoute(currLocale, "/projects")} variant="primary" arrow="right">
+				View All Projects
+			</Button>
 		</div>
 	</div>
 </section>
