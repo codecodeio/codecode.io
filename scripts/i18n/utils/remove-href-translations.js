@@ -23,6 +23,12 @@ async function removeHrefTranslations(logging = false) {
                     // If path is a string literal or template literal, trim it, otherwise return the variable as is
                     return path.trim().match(/^[`'"]|^\$/) ? path.trim() : path.trim();
                 });
+                // do the same for getLocalizedRoute
+                content = content.replace(/import\s*{\s*getLocalizedRoute\s*}\s*from\s*["']@?\/?js\/translationUtils["']\s*;?\s*/g, "\n");
+                content = content.replace(/getLocalizedRoute\s*\(\s*\w+\s*,\s*((?:`[^`]*`|'[^']*'|"[^"]*"|[^,)]+))(?:\s*,\s*[^)]+)?\s*\)/g, (match, path) => {
+                    // If path is a string literal or template literal, trim it, otherwise return the variable as is
+                    return path.trim().match(/^[`'"]|^\$/) ? path.trim() : path.trim();
+                });
                 // Clean up any extra newlines
                 content = content.replace(/\n{3,}/g, "\n\n").trim();
                 // Only write if content changed

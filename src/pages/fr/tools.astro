@@ -1,17 +1,12 @@
 ---
-import { getCollection } from "astro:content";
-import { getRelativeLocaleUrl } from "astro:i18n";
-
-// main layout
-import BaseLayout from "@/layouts/BaseLayout.astro";
-
-// components
 import Button from "@components/button/Button.astro";
 import Tools from "@components/resume/Tools.astro";
-
-// utils
-import { getLocaleFromUrl, filterCollectionByLanguage } from "@js/localeUtils";
+import { filterCollectionByLanguage, getLocaleFromUrl } from "@js/localeUtils";
 import { useTranslations } from "@js/translationUtils";
+import { getCollection } from "astro:content";
+
+import { getLocalizedRoute } from "@/js/translationUtils";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 
 const currLocale = getLocaleFromUrl(Astro.url);
 const resumes = await getCollection("resume");

@@ -22,17 +22,16 @@
  */
 
 // Modules & helpers
-import throttle from "lodash.throttle";
 import debounce from "lodash.debounce";
+import throttle from "lodash.throttle";
 
-import observer from "./libs/observer";
-
+import { type AOSDefaultOptions, type AOSElement } from "./helpers/aosTypes";
 import detect from "./helpers/detector";
-import handleScroll from "./helpers/handleScroll";
-import prepare from "./helpers/prepare";
 import elements from "./helpers/elements";
-import { type AOSElement, type AOSDefaultOptions } from "./helpers/aosTypes";
+import handleScroll from "./helpers/handleScroll";
 import { getPositionIn, getPositionOut } from "./helpers/offsetCalculator";
+import prepare from "./helpers/prepare";
+import observer from "./libs/observer";
 
 /**
  * Private variables

@@ -1,14 +1,11 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
+import Button from "@components/button/Button.astro";
+import { getLocaleFromUrl } from "@js/localeUtils";
+import { slugify } from "@js/textUtils";
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 
-// components
-import Button from "@components/button/Button.astro";
-
-// utils
-import { slugify } from "@js/textUtils";
-import { getLocaleFromUrl } from "@js/localeUtils";
+import { getLocalizedRoute } from "@/js/translationUtils";
 
 const currLocale = getLocaleFromUrl(Astro.url);
 
@@ -70,7 +67,7 @@ const { title, description, image, technologies, ...rest } = project.data;
 			</div>
 
 			<Button
-				href={getRelativeLocaleUrl(currLocale, `/projects/${slugify(project.id)}`)}
+				href={getLocalizedRoute(currLocale, `/projects/${slugify(project.id)}`)}
 				variant="secondary"
 				arrow="right"
 			>

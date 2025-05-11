@@ -1,19 +1,15 @@
 ---
-import { Icon } from "astro-icon/components";
-import { type ComponentProps } from "astro/types";
-import { getRelativeLocaleUrl } from "astro:i18n";
-
-// components
+import Button from "@components/button/Button.astro";
 import FooterLink from "@components/footer/FooterLink.astro";
 import SiteLogo from "@components/site-logo/SiteLogo.astro";
-import Button from "@components/button/Button.astro";
 import SocialIconSimple from "@components/social/SocialIconSimple.astro";
-
-// utils
 import { getLocaleFromUrl } from "@js/localeUtils";
 import { getTranslatedData } from "@js/translationUtils";
+import { type ComponentProps } from "astro/types";
+import { Icon } from "astro-icon/components";
 
-// data
+import { getLocalizedRoute } from "@/js/translationUtils";
+
 const currLocale = getLocaleFromUrl(Astro.url);
 const siteData = getTranslatedData("siteData", currLocale);
 

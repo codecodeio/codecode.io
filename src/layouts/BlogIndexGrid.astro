@@ -1,8 +1,6 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
-
-// components
 import PostCard from "@components/post-card/PostCard.astro";
+import { type CollectionEntry, getCollection } from "astro:content";
 
 interface Props {
 	posts: CollectionEntry<"blog">[];

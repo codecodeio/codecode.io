@@ -3,15 +3,12 @@
  * * pricing sections with toggle for monthly or yearly payments
  * This is designed for 2 pricing items, but can be modified to support more
  */
-import { getRelativeLocaleUrl } from "astro:i18n";
-import { Icon } from "astro-icon/components";
-
-// components
 import Button from "@components/button/Button.astro";
 import Switch from "@components/starwind/switch";
-
-// utils
 import { getLocaleFromUrl } from "@js/localeUtils";
+import { Icon } from "astro-icon/components";
+
+import { getLocalizedRoute } from "@/js/translationUtils";
 
 // get the current page locale to use in links to other pages
 const currLocale = getLocaleFromUrl(Astro.url);

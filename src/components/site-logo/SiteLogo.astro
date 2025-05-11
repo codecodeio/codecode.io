@@ -1,22 +1,19 @@
 ---
-import { Image } from "astro:assets";
-import { getRelativeLocaleUrl } from "astro:i18n";
-
-// utils
 import { getLocaleFromUrl } from "@js/localeUtils";
 import { getTranslatedData } from "@js/translationUtils";
+import { Image } from "astro:assets";
 
-// data
+import { getLocalizedRoute } from "@/js/translationUtils";
+
 const currLocale = getLocaleFromUrl(Astro.url);
 const siteData = getTranslatedData("siteData", currLocale);
 
-// images
 import logo from "@images/site-logo.png";
 ---
 
 <a
 	class="primary-focus text-foreground flex h-10 items-center align-middle text-2xl font-bold"
-	href={getRelativeLocaleUrl(currLocale)}
+	href={getLocalizedRoute(currLocale)}
 	class=""
 >
 	<!-- <Image

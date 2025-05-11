@@ -1,13 +1,11 @@
 import rss from "@astrojs/rss";
-import { getRelativeLocaleUrl } from "astro:i18n";
-import { getCollection, type CollectionEntry } from "astro:content";
-
-// utils
 import { defaultLocale } from "@config/siteSettings.json";
-import { getTranslatedData } from "@js/translationUtils";
 import { getAllPosts } from "@js/blogUtils";
+import { getTranslatedData } from "@js/translationUtils";
+import { type CollectionEntry, getCollection } from "astro:content";
 
-// data
+import { getLocalizedRoute } from "@/js/translationUtils";
+
 const siteData = getTranslatedData("siteData", defaultLocale);
 
 // you can switch the RSS locale here to something else if desired
@@ -58,7 +56,7 @@ export async function GET(context) {
 
 			// Compute RSS link from post `slug`
 			// This example assumes all posts are rendered as `/blog/[slug]` routes
-			link: getRelativeLocaleUrl(rssLocale, `/blog/${post.id}/`),
+			link: getLocalizedRoute(rssLocale, `/blog/${post.id}/`),
 		})),
 	});
 }

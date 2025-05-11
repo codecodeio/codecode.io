@@ -1,15 +1,12 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
-import { type CollectionEntry, getEntries } from "astro:content";
+import Category from "@components/category/CategoryBadge.astro";
+import { getLocaleFromUrl } from "@js/localeUtils";
+import { formatDate } from "@js/textUtils";
 import { Image } from "astro:assets";
+import { type CollectionEntry, getEntries } from "astro:content";
 import { Icon } from "astro-icon/components";
 
-// components
-import Category from "@components/category/CategoryBadge.astro";
-
-// utils
-import { formatDate } from "@js/textUtils";
-import { getLocaleFromUrl } from "@js/localeUtils";
+import { getLocalizedRoute } from "@/js/translationUtils";
 
 interface Props {
 	post: CollectionEntry<"blog">;
@@ -32,7 +29,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 	data-pagefind-ignore
 	{...rest}
 >
-	<a href={getRelativeLocaleUrl(currLocale, `/blog/${post.id}/`)}>
+	<a href={getLocalizedRoute(currLocale, `/blog/${post.id}/`)}>
 		<div class="aspect-[16/9] overflow-hidden">
 			<Image
 				src={heroImage}
@@ -46,7 +43,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 			{categories && categories.slice(0, 2).map((category) => <Category category={category} />)}
 		</div>
 		<a
-			href={getRelativeLocaleUrl(currLocale, `/blog/${post.id}/`)}
+			href={getLocalizedRoute(currLocale, `/blog/${post.id}/`)}
 			class="hover:text-primary text-xl font-bold transition-colors"
 		>
 			<h2>{title}</h2>
@@ -59,7 +56,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 				{formatDate(pubDate, currLocale)}
 			</time>
 			<a
-				href={getRelativeLocaleUrl(currLocale, `/blog/${post.id}/`)}
+				href={getLocalizedRoute(currLocale, `/blog/${post.id}/`)}
 				class="decoration-primary group flex items-center transition-colors hover:underline"
 			>
 				Read More

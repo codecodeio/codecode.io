@@ -1,9 +1,8 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
-
-// utils
-import { slugify, categorify, humanize } from "@js/textUtils";
 import { getLocaleFromUrl } from "@js/localeUtils";
+import { categorify, humanize, slugify } from "@js/textUtils";
+
+import { getLocalizedRoute } from "@/js/translationUtils";
 
 interface Props {
 	category: string | undefined;
@@ -20,7 +19,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 {
 	category && (
 		<a
-			href={getRelativeLocaleUrl(currLocale, `/categories/${slugify(category)}/`)}
+			href={getLocalizedRoute(currLocale, `/categories/${slugify(category)}/`)}
 			class:list={[
 				"rounded-full px-3 py-1 text-sm",
 				"transition-colors",

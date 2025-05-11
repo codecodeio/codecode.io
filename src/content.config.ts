@@ -1,5 +1,5 @@
+import { file, glob } from "astro/loaders";
 import { defineCollection, reference, z } from "astro:content";
-import { glob, file } from "astro/loaders";
 
 // Type-check frontmatter using a schema
 const blogCollection = defineCollection({
@@ -21,6 +21,8 @@ const blogCollection = defineCollection({
 				.transform((str) => (str ? new Date(str) : undefined)),
 			heroImage: image(),
 			categories: z.array(z.string().optional()).optional(),
+			// mappingKey allows you to match entries across languages for SEO purposes
+			mappingKey: z.string().optional(),
 			// blog posts will be excluded from build if draft is "true"
 			draft: z.boolean().optional(),
 		}),
@@ -46,6 +48,7 @@ const pagesCollection = defineCollection({
 		z.object({
 			title: z.string(),
 			description: z.string(),
+			mappingKey: z.string().optional(),
 			draft: z.boolean().optional(),
 		}),
 });
@@ -64,6 +67,7 @@ const projectsCollection = defineCollection({
 			completionDate: z.date(),
 			keyFeatures: z.array(z.string()),
 			order: z.number().optional(),
+			mappingKey: z.string().optional(),
 			draft: z.boolean().optional(),
 		}),
 });
@@ -122,6 +126,7 @@ const resumeCollection = defineCollection({
 					link: z.string().url(),
 				}),
 			),
+			mappingKey: z.string().optional(),
 		}),
 });
 

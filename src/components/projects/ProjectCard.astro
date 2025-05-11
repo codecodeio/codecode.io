@@ -1,15 +1,12 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
+import Button from "@components/button/Button.astro";
+import { getLocaleFromUrl } from "@js/localeUtils";
+import { slugify } from "@js/textUtils";
+import { useTranslations } from "@js/translationUtils";
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 
-// components
-import Button from "@components/button/Button.astro";
-
-// utils
-import { slugify } from "@js/textUtils";
-import { getLocaleFromUrl } from "@js/localeUtils";
-import { useTranslations } from "@js/translationUtils";
+import { getLocalizedRoute } from "@/js/translationUtils";
 
 const currLocale = getLocaleFromUrl(Astro.url);
 
@@ -22,7 +19,7 @@ const { title, image, technologies } = project.data;
 ---
 
 <a
-	href={getRelativeLocaleUrl(currLocale, `/projects/${slugify(project.id)}`)}
+	href={getLocalizedRoute(currLocale, `/projects/${slugify(project.id)}`)}
 	class="group border-border relative overflow-hidden rounded-2xl border"
 	{...rest}
 >
