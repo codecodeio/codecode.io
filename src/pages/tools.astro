@@ -1,18 +1,19 @@
 ---
-import Button from "@components/button/Button.astro";
 import ToolsComponent from "@components/resume/Tools.astro";
 import { filterCollectionByLanguage, getLocaleFromUrl } from "@js/localeUtils";
 import { useTranslations } from "@js/translationUtils";
-import { getCollection } from "astro:content";
+import { type CollectionEntry, getCollection } from "astro:content";
 
-import { getLocalizedRoute } from "@/js/translationUtils";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 const currLocale = getLocaleFromUrl(Astro.url);
 const resumes = await getCollection("resume");
 
 // get rid of pages from other languages and remove locale from slug
-const filteredResumes = filterCollectionByLanguage(resumes, currLocale);
+const filteredResumes = filterCollectionByLanguage(
+	resumes,
+	currLocale,
+) as CollectionEntry<"resume">[];
 
 // should only be one resume
 const resume = filteredResumes[0];
