@@ -3,13 +3,9 @@
  * This makes it much cleaner to work with content in different languages
  */
 
-import { collection, singleton, fields } from "@keystatic/core";
-
-// components
 import ComponentBlocks from "@components/KeystaticComponents/ComponentBlocks";
-
-// utils
 import { locales } from "@config/siteSettings.json";
+import { collection, fields, singleton } from "@keystatic/core";
 
 /**
  * * Blog posts collection
@@ -68,6 +64,10 @@ const Blog = (locale: (typeof locales)[number]) =>
 				description: "This is NOT case sensitive.",
 				itemLabel: (props) => props.value,
 				// validation: { length: { min: 1 } },
+			}),
+			mappingKey: fields.text({
+				label: "Mapping Key",
+				description: "This is used to map entries between languages.",
 			}),
 			content: fields.mdx({
 				label: "Content",
@@ -197,6 +197,10 @@ const OtherPages = (locale: (typeof locales)[number]) =>
 				label: "Description",
 				validation: { isRequired: true, length: { min: 1, max: 160 } },
 			}),
+			mappingKey: fields.text({
+				label: "Mapping Key",
+				description: "This is used to map entries between languages.",
+			}),
 			draft: fields.checkbox({
 				label: "Draft",
 				description: "Set this page as draft to prevent it from being published.",
@@ -282,6 +286,10 @@ const Projects = (locale: (typeof locales)[number]) =>
 			order: fields.number({
 				label: "Display Order",
 				description: "Optional: Use to control the order of projects (lower numbers appear first)",
+			}),
+			mappingKey: fields.text({
+				label: "Mapping Key",
+				description: "This is used to map entries between languages.",
 			}),
 			draft: fields.checkbox({
 				label: "Draft",
@@ -451,6 +459,10 @@ const Resume = (locale: (typeof locales)[number]) =>
 					itemLabel: (props) => `${props.fields.name.value} (${props.fields.category.value})`,
 				},
 			),
+			mappingKey: fields.text({
+				label: "Mapping Key",
+				description: "This is used to map entries between languages.",
+			}),
 		},
 	});
 

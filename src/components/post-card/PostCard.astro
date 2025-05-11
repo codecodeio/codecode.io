@@ -1,12 +1,11 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
-import { type CollectionEntry, getEntries } from "astro:content";
+import { getLocaleFromUrl } from "@js/localeUtils";
+import { formatDate } from "@js/textUtils";
 import { Image } from "astro:assets";
+import { type CollectionEntry, getEntries } from "astro:content";
 import { Icon } from "astro-icon/components";
 
-// utils
-import { formatDate } from "@js/textUtils";
-import { getLocaleFromUrl } from "@js/localeUtils";
+import { getLocalizedRoute } from "@/js/translationUtils";
 
 interface Props {
 	post: CollectionEntry<"blog">;
@@ -22,7 +21,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 ---
 
 <a
-	href={getRelativeLocaleUrl(currLocale, `/blog/${post.id}/`)}
+	href={getLocalizedRoute(currLocale, `/blog/${post.id}/`)}
 	class:list={[
 		"group hover:border-primary/30 hover:shadow-primary/5 dark:bg-base-900 overflow-hidden rounded-2xl border bg-white transition-all duration-300 hover:shadow-xl",
 		className,

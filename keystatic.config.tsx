@@ -10,10 +10,8 @@
  * Create a Keystatic Cloud account here: https://keystatic.cloud/
  */
 
-import { config } from "@keystatic/core";
-
-// components
 import Collections from "@components/KeystaticComponents/Collections";
+import { config } from "@keystatic/core";
 
 export default config({
 	// works in local mode in dev, then cloud mode in prod

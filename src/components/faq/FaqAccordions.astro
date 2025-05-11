@@ -3,19 +3,15 @@
  * * FAQ section in accordions
  */
 
-// components
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
 } from "@components/starwind/accordion";
-
-// utils
 import { getLocaleFromUrl } from "@js/localeUtils";
 import { getTranslatedData } from "@js/translationUtils";
 
-// data
 const currLocale = getLocaleFromUrl(Astro.url);
 const faqData = getTranslatedData("faqData", currLocale);
 ---

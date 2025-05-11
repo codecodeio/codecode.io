@@ -1,12 +1,8 @@
 ---
+import Seo from "@components/seo/Seo.astro";
+import siteSettings from "@config/siteSettings.json";
 import { type CollectionEntry } from "astro:content";
 import { ClientRouter } from "astro:transitions";
-
-// component imports
-import Seo from "@components/seo/Seo.astro";
-
-// data
-import siteSettings from "@config/siteSettings.json";
 
 export interface Props {
 	type?: "blog" | "general" | undefined;

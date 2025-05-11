@@ -1,10 +1,9 @@
 import { type CollectionEntry } from "astro:content";
 
-// utils
-import { getTranslatedData } from "@/js/translationUtils";
 import { defaultLocale } from "@/config/siteSettings.json";
+import { getTranslatedData } from "@/js/translationUtils";
 
-// data - siteData.title should not change based on locale so this should be fine
+// siteData.title should not change based on locale so this should be fine
 const siteData = getTranslatedData("siteData", defaultLocale);
 
 interface GeneralProps {

@@ -1,12 +1,10 @@
 ---
-import TestimonialSwiperCard from "./TestimonialSwiperCard.astro";
-import { Icon } from "astro-icon/components";
-
-// utils
 import { getLocaleFromUrl } from "@js/localeUtils";
 import { getTranslatedData } from "@js/translationUtils";
+import { Icon } from "astro-icon/components";
 
-// data
+import TestimonialSwiperCard from "./TestimonialSwiperCard.astro";
+
 const currLocale = getLocaleFromUrl(Astro.url);
 const testimonials = getTranslatedData("testimonialData", currLocale);
 ---
@@ -65,9 +63,10 @@ const testimonials = getTranslatedData("testimonialData", currLocale);
 </section>
 
 <script>
-	import Swiper from "swiper";
-	import { Navigation, Keyboard, Mousewheel } from "swiper/modules";
 	import "swiper/css";
+
+	import Swiper from "swiper";
+	import { Keyboard, Mousewheel, Navigation } from "swiper/modules";
 
 	const initTestimonialSwiper = () => {
 		const swiperElement = document.querySelector(".testimonials-slider");

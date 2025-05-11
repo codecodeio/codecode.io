@@ -85,6 +85,100 @@ export async function updateTranslationData(localeConfig, logOptions) {
         const localeRouteTranslation = defaultRouteTranslationValue.replace(new RegExp(`${defaultLocale}: {`, "g"), `${locale}: {`);
         translationData = translationData.replace("export const routeTranslations = {", `export const routeTranslations = {\n  ${localeRouteTranslation},`);
     });
+    // --- BEGIN localizedCollections update logic ---
+    // Find and update localizedCollections object
+    const localizedCollectionsRegex = /export const localizedCollections = (\{[\s\S]*?\}) as const;/m;
+    const localizedCollectionsMatch = translationData.match(localizedCollectionsRegex);
+    if (localizedCollectionsMatch) {
+        let localizedCollectionsText = localizedCollectionsMatch[1];
+        // Parse the collections (very simple JS object parser for this structure)
+        localizedCollectionsText = localizedCollectionsText.replace(/(\w+): \{([^}]*)\}/g, (full, collection, localesBlock) => {
+            // Build a map of locale to value for this collection
+            const localeEntries = Array.from(localesBlock.matchAll(/(\w+):\s*"([^"]*)"/g))
+                .map((match) => Array.isArray(match) && typeof match[1] === "string" && typeof match[2] === "string"
+                ? [match[1], match[2]]
+                : undefined)
+                .filter((entry) => !!entry);
+            const localeMap = new Map(localeEntries);
+            // Store the last value before removals
+            let fallbackValue = "";
+            if (localeEntries.length > 0) {
+                fallbackValue = localeEntries[0][1];
+            }
+            // Remove locales
+            localesToRemove.forEach((locale) => localeMap.delete(locale));
+            // After removals, get a value from any remaining locale (if any)
+            const remainingLocales = Array.from(localeMap.values());
+            const copyFromValue = remainingLocales[0] ?? fallbackValue;
+            // Add new locales (copy from any remaining or fallback value)
+            localesToAdd.forEach((locale) => {
+                if (!localeMap.has(locale)) {
+                    localeMap.set(locale, copyFromValue);
+                }
+            });
+            // Rename locale keys if needed
+            if (editOldDefaultToNewDefault &&
+                localeMap.has(defaultLocale) &&
+                !localeMap.has(newDefaultLocale)) {
+                const value = localeMap.get(defaultLocale) ?? copyFromValue;
+                localeMap.delete(defaultLocale);
+                localeMap.set(newDefaultLocale, value);
+            }
+            // Rebuild locales block
+            const newLocalesBlock = Array.from(localeMap.entries())
+                .map(([k, v]) => `\n\t\t${k}: "${v}"`)
+                .join(",") + "\n\t";
+            return `${collection}: {${newLocalesBlock}}`;
+        });
+        // Replace the old localizedCollections object in translationData
+        translationData = translationData.replace(localizedCollectionsRegex, `export const localizedCollections = ${localizedCollectionsText} as const;`);
+    }
+    // --- END localizedCollections update logic ---
+    // --- BEGIN localeMap/languageSwitcherMap update logic ---
+    // Helper to update a map object in the file
+    function updateLocaleMapObject(translationData, mapName, localeSet, valueFn) {
+        // eslint-disable-next-line no-useless-escape
+        const mapRegex = new RegExp(`export const ${mapName} = ({[\s\S]*?}) as const;`, "m");
+        const match = translationData.match(mapRegex);
+        if (!match)
+            return translationData;
+        const mapText = match[1];
+        const entryRegex = /(\w+):\s*"([^"]*)"/g;
+        const prevEntries = new Map();
+        let entryMatch;
+        while ((entryMatch = entryRegex.exec(mapText))) {
+            prevEntries.set(entryMatch[1], entryMatch[2]);
+        }
+        // Build new map entries
+        const newEntries = Array.from(localeSet).map((locale) => {
+            const prevValue = prevEntries.get(locale);
+            return `  ${locale}: "${valueFn(locale, prevValue)}"`;
+        });
+        const newMapText = `{
+${newEntries.join(",\n")}
+}`;
+        return translationData.replace(mapRegex, `export const ${mapName} = ${newMapText} as const;`);
+    }
+    // Determine the current set of locales after add/remove/rename
+    const currentLocales = new Set();
+    // Start from all locales present at this point
+    uniqueDataItems.forEach(() => { }); // no-op, just to show context
+    // Gather all locales present in dataTranslations (robust way)
+    const dataTranslationsRegex = /export const dataTranslations = \{([\s\S]*?)\}/m;
+    const dataTranslationsMatch = translationData.match(dataTranslationsRegex);
+    if (dataTranslationsMatch) {
+        const dtBlock = dataTranslationsMatch[1];
+        const dtLocaleRegex = /(\w+): \{/g;
+        let m;
+        while ((m = dtLocaleRegex.exec(dtBlock))) {
+            currentLocales.add(m[1]);
+        }
+    }
+    // Update localeMap
+    translationData = updateLocaleMapObject(translationData, "localeMap", currentLocales, (locale, prevValue) => (prevValue !== undefined ? prevValue : locale));
+    // Update languageSwitcherMap
+    translationData = updateLocaleMapObject(translationData, "languageSwitcherMap", currentLocales, (locale, prevValue) => (prevValue !== undefined ? prevValue : locale.toUpperCase()));
+    // --- END localeMap/languageSwitcherMap update logic ---
     // Write the updated translation data
     await writeFile(ACTIVE_PATHS.translationDataPath, translationData, logOptions);
 }

@@ -1,15 +1,12 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
-import { getCollection } from "astro:content";
-
-// components
 import PostCard from "@components/post-card/PostCardDetailed.astro";
-import Button from "@/components/button/Button.astro";
-import BlogIndexGridDetailed from "@layouts/BlogIndexGridDetailed.astro";
-
-// utils
 import { getAllPosts } from "@js/blogUtils";
 import { getLocaleFromUrl } from "@js/localeUtils";
+import BlogIndexGridDetailed from "@layouts/BlogIndexGridDetailed.astro";
+import { getCollection } from "astro:content";
+
+import Button from "@/components/button/Button.astro";
+import { getLocalizedRoute } from "@/js/translationUtils";
 
 const currLocale = getLocaleFromUrl(Astro.url);
 const posts = await getAllPosts(currLocale);
@@ -31,7 +28,7 @@ const slicedPosts = posts.slice(0, 6);
 
 		<div class="mt-16 flex justify-center">
 			<Button
-				href={getRelativeLocaleUrl(currLocale, `/blog`)}
+				href={getLocalizedRoute(currLocale, `/blog`)}
 				variant="secondary"
 				class="group"
 				arrow="right"

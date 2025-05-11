@@ -43,8 +43,8 @@ function displayCompletionMessage(multipleLanguages) {
         // Allow time for user to read output
         setTimeout(() => {
             console.log("Next steps:");
-            console.log("1. Update 'localeMap' in src/config/siteSettings.json.ts");
-            console.log("2. Update 'languageSwitcherMap' in src/config/siteSettings.json.ts");
+            console.log("1. Review locale and language switcher maps in src/config/siteSettings.json.ts");
+            console.log("2. Review text and route translations in src/config/translationData.json.ts");
             console.log("3. Review your translation files in src/config/[locale]/\n");
         }, 1000);
     }

@@ -5,9 +5,8 @@
  * - offset
  */
 
-import { type TriggerPlacement } from "./aosTypes";
-
 import getOffset from "../libs/offset";
+import { type TriggerPlacement } from "./aosTypes";
 import getInlineOption from "./getInlineOption";
 
 // returns the final offset that will be used to trigger animation in good position

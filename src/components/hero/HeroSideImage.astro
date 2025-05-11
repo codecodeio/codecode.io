@@ -1,14 +1,11 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
-import { Icon } from "astro-icon/components";
-import { Image } from "astro:assets";
-
-// components
 import Button from "@components/button/Button.astro";
-
-// utils
 import { getLocaleFromUrl } from "@js/localeUtils";
 import { useTranslations } from "@js/translationUtils";
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+
+import { getLocalizedRoute } from "@/js/translationUtils";
 
 const currLocale = getLocaleFromUrl(Astro.url);
 const t = useTranslations(currLocale);
@@ -65,7 +62,7 @@ import heroImage from "@/assets/images/design-img-1-min.jpg";
 					data-aos-trigger="#hero-side-image"
 				>
 					<Button href="#contact" arrow="right"> Start a Project </Button>
-					<Button href={getRelativeLocaleUrl(currLocale, `/projects`)} variant="ghost">
+					<Button href={getLocalizedRoute(currLocale, `/projects`)} variant="ghost">
 						View Work
 					</Button>
 				</div>

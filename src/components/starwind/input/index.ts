@@ -3,7 +3,7 @@ import InputFeedback from "./InputFeedback.astro";
 import InputLabel from "./InputLabel.astro";
 import InputWrapper from "./InputWrapper.astro";
 
-export { InputWrapper, InputLabel, Input, InputFeedback };
+export { Input, InputFeedback, InputLabel, InputWrapper };
 
 export default {
 	Root: InputWrapper,

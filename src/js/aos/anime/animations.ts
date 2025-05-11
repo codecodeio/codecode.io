@@ -1,4 +1,5 @@
 import anime from "animejs/lib/anime.es.js";
+
 import { type AnimeOptions } from "../helpers/aosTypes";
 
 export const getAnimation = (

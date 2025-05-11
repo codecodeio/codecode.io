@@ -1,9 +1,10 @@
-import { defineConfig } from "eslint/config";
-import globals from "globals";
 import js from "@eslint/js";
-import tseslint from "typescript-eslint";
+import { defineConfig } from "eslint/config";
 import astro from "eslint-plugin-astro";
 import prettier from "eslint-plugin-prettier";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 // parsers
 const tsParser = tseslint.parser;
@@ -24,13 +25,15 @@ export default defineConfig([
 	js.configs.recommended,
 	tseslint.configs.recommended,
 
-	// Prettier config
 	{
 		plugins: {
 			prettier: prettier,
+			"simple-import-sort": simpleImportSort,
 		},
 		rules: {
 			"prettier/prettier": "off",
+			"simple-import-sort/imports": "warn",
+			"simple-import-sort/exports": "warn",
 			"@typescript-eslint/no-explicit-any": "off", // you may want this as it can get annoying
 			"@typescript-eslint/no-unused-vars": "off", // I sometimes purposely have unused vars as this is a template
 			"@typescript-eslint/ban-ts-comment": "off",
