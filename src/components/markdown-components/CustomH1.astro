@@ -7,7 +7,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 
 const { id, ...rest }: Record<string, any> = Astro.props;
 
-const domain = Astro.url.origin + getLocalizedPathname(currLocale, Astro.url); // pulls from astro.config.mjs
+const domain = Astro.url.origin + await getLocalizedPathname(currLocale, Astro.url); // pulls from astro.config.mjs
 // console.log(domain + "#" + id);
 ---
 
