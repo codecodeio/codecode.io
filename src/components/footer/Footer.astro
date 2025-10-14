@@ -8,8 +8,6 @@ import { getTranslatedData } from "@js/translationUtils";
 import { type ComponentProps } from "astro/types";
 import { Icon } from "astro-icon/components";
 
-import { getLocalizedRoute } from "@/js/translationUtils";
-
 const currLocale = getLocaleFromUrl(Astro.url);
 const siteData = getTranslatedData("siteData", currLocale);
 
@@ -22,55 +20,64 @@ interface FooterLinkItem {
 }
 
 const quickLinks: FooterLinkItem[] = [
-	{ label: "Projects", href: "/projects", newTab: false },
-	{ label: "Blog", href: "/blog", newTab: false },
-	{ label: "Resume", href: "/resume", newTab: false },
-	{ label: "Contact", href: "/#contact", newTab: false },
+	// { label: "Projects", href: "/projects", newTab: false },
+	{ label: "Latest", href: "/blog", newTab: false },
+	// { label: "Resume", href: "/resume", newTab: false },
+	{ label: "Development", href: "/categories/development", newTab: false },
+	{ label: "Git", href: "/categories/git", newTab: false },
+	{ label: "Mac", href: "/categories/mac", newTab: false },
+
 ];
 
 const legalLinks: FooterLinkItem[] = [
-	{ label: "Refund Policy", href: "https://cosmicthemes.com/refund/", newTab: true },
-	{ label: "Terms of Service", href: "https://cosmicthemes.com/terms/", newTab: true },
-	{ label: "Support", href: "https://cosmicthemes.com/support/", newTab: true },
+	// { label: "Refund Policy", href: "https://cosmicthemes.com/refund/", newTab: true },
+	// { label: "Terms of Service", href: "https://cosmicthemes.com/terms/", newTab: true },
+	// { label: "Support", href: "https://cosmicthemes.com/support/", newTab: true },
 ];
 
 const socialLinks: ComponentProps<typeof SocialIconSimple>[] = [
-	{
-		name: "Twitter",
-		url: "https://x.com/BowTiedWebReapr",
-		icon: "tabler/brand-x",
-	},
-	{
-		name: "Threads",
-		url: "https://www.threads.net/@bowtiedwebreaper",
-		icon: "tabler/brand-threads",
-	},
-	{
-		name: "BlueSky",
-		url: "https://bsky.app/profile/webreaper.dev",
-		icon: "tabler/brand-bluesky",
-	},
-	{
-		name: "GitHub",
-		url: "https://github.com/Boston343",
-		icon: "tabler/brand-github",
-	},
+	// {
+	// 	name: "X (Twitter)",
+	// 	url: "https://x.com/codecodeio",
+	// 	icon: "tabler/brand-x",
+	// },
+	// {
+	// 	name: "Threads",
+	// 	url: "https://www.threads.net/@bowtiedwebreaper",
+	// 	icon: "tabler/brand-threads",
+	// },
+	// {
+	// 	name: "BlueSky",
+	// 	url: "https://bsky.app/profile/webreaper.dev",
+	// 	icon: "tabler/brand-bluesky",
+	// },
+	// {
+	// 	name: "GitHub",
+	// 	url: "https://github.com/codecodeio",
+	// 	icon: "tabler/brand-github",
+	// },
 ];
 
 const contactInfo = [
 	{
-		value: "contact@example.com",
-		href: "mailto:contact@example.com",
-		icon: "tabler/mail",
+		value: "X (Twitter)",
+		href: "https://x.com/codecodeio",
+		icon: "tabler/brand-x",
 	},
 	{
-		value: "+1 (234) 567-890",
-		href: "tel:+1234567890",
-		icon: "tabler/phone",
+		value: "Linked In",
+		href: "https://www.linkedin.com/in/codecode/",
+		icon: "tabler/brand-linkedin",
 	},
 	{
-		value: "123 Design Street\nCreative City, DC 12345",
-		icon: "tabler/map-pin",
+		value: "Facebook",
+		href: "https://www.facebook.com/codecodeio",
+		icon: "tabler/brand-facebook",
+	},
+	{
+		value: "GitHub",
+		href: "https://github.com/codecodeio",
+		icon: "tabler/brand-github",
 	},
 ];
 ---
@@ -93,7 +100,7 @@ const contactInfo = [
 			<div class="flex max-w-sm flex-col items-start">
 				<SiteLogo />
 				<p class="text-base-600 dark:text-base-400 mt-4">
-					Creating meaningful digital experiences through thoughtful design and innovation.
+					Simplifying tech with straightforward tutorials made with great care.
 				</p>
 				<!-- Social Links -->
 				<div class="mt-5 flex flex-wrap gap-4">
@@ -103,7 +110,7 @@ const contactInfo = [
 			<div class="grid gap-x-4 gap-y-10 sm:grid-cols-2 md:w-1/2">
 				<!-- Navigation -->
 				<div class="flex flex-col gap-2">
-					<h3 class="mb-6 text-lg font-semibold">Navigation</h3>
+					<h3 class="mb-6 text-lg font-semibold">Categories</h3>
 					{
 						quickLinks.map((link) => (
 							<FooterLink href={link.href} newTab={link.newTab}>
@@ -114,22 +121,23 @@ const contactInfo = [
 				</div>
 
 				<div class="">
-					<h3 class="mb-8 text-lg font-semibold">Contact</h3>
+					<h3 class="mb-8 text-lg font-semibold">Get in Touch</h3>
 					<div class="space-y-4">
 						{
 							contactInfo.map((info) => (
 								<div class="flex items-start gap-4">
-									<Icon name={info.icon} class="text-primary h-6 w-6" />
 									<div>
 										{info.href ? (
 											<a
 												href={info.href}
-												class="primary-focus hover:text-primary text-base-600 dark:text-base-400 transition-colors"
+												class="primary-focus hover:text-primary text-base-600 dark:text-base-400 flex items-center gap-2 transition-colors"
 											>
+												<Icon name={info.icon} class="text-primary h-6 w-6" />
 												{info.value}
 											</a>
 										) : (
-											<div class="text-base-600 dark:text-base-400 whitespace-pre-line">
+											<div class="text-base-600 dark:text-base-400 flex items-center gap-2 whitespace-pre-line">
+												<Icon name={info.icon} class="text-primary h-6 w-6" />
 												{info.value}
 											</div>
 										)}
@@ -153,12 +161,6 @@ const contactInfo = [
 					{legalLinks.map((link) => <FooterLink href={link.href}>{link.label}</FooterLink>)}
 				</div>
 			</div>
-		</div>
-		<div class="sr-only">
-			<p>
-				A website template crafted with love by <a href="https://cosmicthemes.com/">Cosmic Themes</a
-				>
-			</p>
 		</div>
 	</footer>
 </div>

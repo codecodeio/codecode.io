@@ -1,0 +1,157 @@
+---
+title: Terminal ZSH Prompt Customization
+description: >-
+  The ZSH terminal prompt can be customized for style and function, showing
+  folder, Git branch, command status, and time for a more useful prompt.
+draft: false
+authors:
+  - matthew
+pubDate: 2023-01-29
+heroImage: ../terminal-zsh-prompt-customization/heroImage.webp
+categories:
+  - Terminal
+  - Development
+---
+The ZSH Terminal prompt can be customized to look great and be much more useful. You can add color, display the current folder, show the Git branch, change conditionally based on successful and unsuccessful commands, and even display the time. Let's break down how to do this so your Terminal prompt will look amazing!
+
+The default Terminal prompt looks like this... 🤢 I already know who I am and what computer I am using! This is not helpful. 🤦
+
+```
+matt@Matts-MacBook-Pro ~ %
+```
+
+c
+
+Paste this code into your .zshrc file and you are done! But if you want to know where your .zshrc file is, what it's doing, and how to tweak it, keep reading. This tutorial was written for Mac but the commands are very similar for any UNIX-based computer.
+
+```
+#Terminal Prompt
+autoload -Uz vcs_info
+precmd() { vcs_info }
+zstyle ':vcs_info:git:*' formats '%b'
+setopt PROMPT_SUBST
+PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{cyan}%1~%f%b %F{yellow}${vcs_info_msg_0_}%f %# '
+RPROMPT='%*'
+```
+
+### **Make A .zshrc File**
+
+The .zshrc file is located here by default: `~/.zshrc`. Where is that? `~` is just a shorcut to your user's home folder. In the Terminal run the command `cd ~` to go to this location then run `pwd` see the file path.
+
+```
+√ ~  % cd ~
+√ ~  % pwd
+/Users/matt
+```
+
+To see if you have a .zshrc file run the command `ls -al`. It will show you all the files including the hidden ones that start with a period.
+
+```
+√ ~  % ls -al
+```
+
+If you do not have the file run the `touch` command to create one and open it up using your favorite code editor. I use [Visual Studio Code](https://code.visualstudio.com/?ref=codecode.io) (VSC) to edit my .zshrc file. To see hidden files in the open file dialog in VSC on Mac you can hit **`⌘`**+**`shift`**+**`.`**
+
+```
+√ ~  % touch .zshrc
+```
+
+I frequently tweak my .zshrc file and add commands to make navigating the Terminal more efficient. To make opening .zshrc and refreshing the Terminal easy I've added the commands `zsh`, `code`, and `refresh`. I suggest you add them as well. It will make editing your.zshrc file and following this tutorial much easier. Change the name of the alias and the program it opens to meet your needs. Now you can type `zsh` to open your .zshrc file in Visual Studio Code to make a change. Then type `refresh` in the Terminal to activate the changes you made in your .zshrc file. You can also open any file using the Terminal by typing `code` and the name of the file, for example, `% code someTextFile.txt`
+
+```
+#Terminal
+alias refresh="source ~/.zshrc" #load .zshrc changes into terminal
+alias zsh="code ~/.zshrc" #open .zshrc
+#Visual Studio Code
+code() {open -a "Visual Studio Code" $1;} #open a file using VSC
+```
+
+Congrats 🥳 you have the .zshrc file open and you've pasted the code in. Let's run through it line by line to see what it does and how to customize it.
+
+ZSH has a built-in function called `vcs_info` which is for pulling in Version Control System (VCS) information. This makes the VCS info available to the Terminal. 🤓 [RTFM](https://zsh.sourceforge.io/Doc/Release/User-Contributions.html?ref=codecode.io#Version-Control-Information)
+
+```
+autoload -Uz vcs_info
+```
+
+`precmd` is a hook function that is executed before each prompt. This will pass the VCS info to the prompt. 🤓 [RTFM](https://zsh.sourceforge.io/Doc/Release/Functions.html?ref=codecode.io#Functions)
+
+```
+precmd() { vcs_info }
+```
+
+`zstyle` is used for formatting. In this case, we are formatting the VCS info to return the branch name `%b` the git repo is on.🤓 [RTFM](https://zsh.sourceforge.io/Doc/Release/Zsh-Modules.html?ref=codecode.io#The-zsh_002fzutil-Module)
+
+```
+zstyle ':vcs_info:git:*' formats '%b'
+```
+
+`setopt` sets an option to make the prompt ready for modifications. 🤓 [RTFM](https://zsh.sourceforge.io/Doc/Release/User-Contributions.html?ref=codecode.io#vcs_005finfo-Quickstart)
+
+```
+setopt PROMPT_SUBST
+```
+
+All the prior commands were boilerplate. Now we can actually modify the prompt to display what we want. My brain hurts just looking at this! 🤯 However, it's not too complicated when broken down into smaller parts.
+
+```
+PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{cyan}%1~%f%b %F{yellow}${vcs_info_msg_0_}%f %# '
+```
+
+### **Create A Conditional Prompt**
+
+```
+%(?.<success>.<failure>)
+...
+%(?.%F{green}√.%F{red}?%?)%f
+```
+
+On success ✅, the prompt will output a green √\
+On failure ❌, the prompt will output a red ? followed by the error code represented by `%?`\
+`%F{color}` means start using a foreground color. The color is specified inside the curly brackets \{green}.\
+`%f` means stop using a foreground color.\
+Change the colors and characters to whatever you like. 🤓 [RTFM](https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html?ref=codecode.io#Conditional-Substrings-in-Prompts)\
+Here's what this looks like if you try to open a file that does not exist:
+
+### **Display The Current Folder In The Terminal Prompt**
+
+```
+%B%F{cyan}%1~%f%b
+```
+
+`%B` Start using boldface mode.\
+`%b` Stop using boldface mode.\
+`%F(%f)` Start/stop using a foreground color specified by \{cyan}.\
+`%1~` Print the last folder of the current working directory, for example **`Documents`**. If this was `%~` the full directory would be printed, for example **`~/Documents/Development`**.\
+🤓 [RTFM](https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html?ref=codecode.io)
+
+### **Display The Git Branch In The Terminal Prompt**
+
+```
+%F{yellow}${vcs_info_msg_0_}%f %#
+```
+
+`%F(%f)` Start/stop using a foreground color specified by \{yellow}.\
+`${vcs_info_msg_0_}` Display the version control info which we previously styled to return the branch name. 🤓 [RTFM](https://zsh.sourceforge.io/Doc/Release/User-Contributions.html?ref=codecode.io#Version-Control-Information)\
+`%#` Display a `#` if the shell is running with privileges, a `%` if not. 🤓 [RTFM](https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html?ref=codecode.io)
+
+### **Display the Time On The Right Side of the Prompt**
+
+You can customize the right side of the prompt as well. The most useful information to add is a timestamp. This way if you are curious about how long a command took, it will be sitting there waiting for you on the right side of the prompt.
+
+```
+RPROMPT='%*'
+```
+
+`%*` The current time of day in 24-hour format, with seconds.\
+Don't worry, the right prompt will disappear if a long command reaches it. You can style the right-side prompt but I prefer to leave it plain and let it fade into the background.\
+🤓 [RTFM](https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html?ref=codecode.io)
+
+If you were wondering, yes, you can make your Terminal prompt an emoji 🤓 and nothing else if you are in a very zen mood!
+
+```
+PROMPT='🤓 '
+```
+
+\
+🥳 Wow! That Terminal prompt looks amazing! Sit back and revel in this accomplishment. Then show it off to your friends and colleagues so they can have a Terminal prompt that looks amazing too. While you're at it perhaps suggest they subscribe to this newsletter as well so they can be as tech-savvy as you.

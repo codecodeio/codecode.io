@@ -1,0 +1,70 @@
+---
+title: JavaScript Load Order
+description: >-
+  JavaScript load order matters when scripts must run in sequence, like
+  Bootstrap requiring jQuery to load first.
+draft: false
+authors:
+  - matthew
+pubDate: 2024-04-22
+heroImage: ../javascript-load-order/heroImage.webp
+categories:
+  - JavaScript
+  - Development
+---
+Sometimes JavaScript load order matters. In these cases you need a way to load scripts in a specific order. 1️⃣ 2️⃣ 3️⃣ One example is the fact that BootStrap relies on jQuery being loaded first. 🥇
+
+This can be achieved with a simple function called loadScript(). This function appends the script to the head of the html with an onload listener. Once the onload event is triggered it runs the callback function passed in to loadScript(). The function you pass in once again calls the loadScript() function to load the next script. This enables you to chain together any number of scripts that load in a specific order.
+
+Attributes such as 'integrity' and 'crossorigin' should also be assigned to the scripts. These should be passed into the loadScript() function. Then, account for any network issues with an onerror event listener.
+
+Adjust this script to the version of jQuery and/or BootStrap you need using these links:\
+[https://releases.jquery.com/jquery/](https://releases.jquery.com/jquery/?ref=codecode.io)\
+[https://www.bootstrapcdn.com/](https://www.bootstrapcdn.com/?ref=codecode.io)
+
+🏁 Done! You scripts load properly in all scenarios including network failures. Your site works well and all is right with the world!
+
+```
+/*Function to dynamically load a script with additional attributes*/
+function loadScript(url, integrity, crossorigin, callback) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+
+    /*If integrity and crossorigin attributes are provided, add them*/
+    if (integrity) script.setAttribute('integrity', integrity);
+    if (crossorigin) script.setAttribute('crossorigin', crossorigin);
+
+    /*Cross-browser handling of the script load event*/
+    script.onload = function() {
+        callback()
+    };
+
+    /*Handle any error that occurs while loading the script*/
+    script.onerror = function () {
+        console.error('Error loading script:', url);
+    };
+
+    /*Append the script to the document's head*/
+    document.head.appendChild(script);
+};
+
+/*Load jQuery with the integrity and crossorigin attributes*/
+loadScript(
+'https://code.jquery.com/jquery-3.7.1.min.js',
+'sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=',
+'anonymous',
+function() {
+    console.log('jQuery loaded successfully.');
+
+    /*Once jQuery is loaded, load Bootstrap*/
+    loadScript(
+        'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js',
+        'sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+',
+        'anonymous',
+        function() {
+            console.log('Bootstrap loaded successfully.');
+        });
+    }
+);
+```

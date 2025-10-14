@@ -9,8 +9,6 @@ import { getLocaleFromUrl } from "@js/localeUtils";
 import { getTranslatedData } from "@js/translationUtils";
 import { Icon } from "astro-icon/components";
 
-import { getLocalizedRoute } from "@/js/translationUtils";
-
 const currLocale = getLocaleFromUrl(Astro.url);
 const navData = getTranslatedData("navData", currLocale);
 import { locales } from "@config/siteSettings.json";
@@ -96,14 +94,14 @@ import { locales } from "@config/siteSettings.json";
 			<div class="mt-2 flex w-full flex-col gap-3 px-2">
 				<!-- <hr class="mx-2 mb-2 border-base-300 dark:border-base-600/60" /> -->
 				<div class="-mr-1 flex items-start justify-between">
-					<ThemeToggle />
-					{locales.length > 1 && <LanguageSelect />}
+					<!-- <ThemeToggle /> -->
+					<!-- {locales.length > 1 && <LanguageSelect />} -->
 				</div>
 				<!-- don't forget to also update the button in Nav.astro! -->
 				<Button
 					variant="primary"
-					href="https://cosmicthemes.com/themes/voyager"
-					class="w-full whitespace-nowrap">Get Voyager</Button
+					href="/subscribe"
+					class="w-full whitespace-nowrap">Subscribe</Button
 				>
 			</div>
 		</div>

@@ -12,8 +12,6 @@
 import Button from "@components/button/Button.astro";
 import { getLocaleFromUrl } from "@js/localeUtils";
 
-import { getLocalizedRoute } from "@/js/translationUtils";
-
 const currLocale = getLocaleFromUrl(Astro.url);
 ---
 
@@ -24,7 +22,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 		<div class="text-center">
 			<p class="text-sm lg:text-base">
 				We use cookies to improve your experience on this site. To learn more, see our <a
-					href={getLocalizedRoute(currLocale, "/privacy-policy")}
+					href={"/privacy-policy"}
 					class="hover:text-primary text-foreground decoration-primary underline transition"
 					>Privacy Policy</a
 				>.

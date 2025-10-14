@@ -1,0 +1,181 @@
+---
+title: How to Install Magento For Local Development Using Docker
+description: >-
+  Install Magento with Docker & docker-compose. Run PHP, Nginx, MariaDB, Redis,
+  RabbitMQ & OpenSearch in containers—Magento up in just 4 commands!
+draft: false
+authors:
+  - matthew
+pubDate: 2025-07-27
+heroImage: ../how-to-install-magento-for-local-development-using-docker/heroImage.webp
+categories:
+  - Magento
+  - Development
+---
+Install Magento using Docker and docker-compose to orchestrate the services. All the services required to run Magento properly will be containerized including PHP, nginx, Mariadb, Redis, Rabbitmq, and Opensearch. The local Magento code base will be mapped to the container for persistence. All this can be completed in 4 commands!
+
+## **Prerequisites**
+
+Make sure Git and Docker Desktop are installed. 
+
+## **Build the Docker Containers**
+
+Navigate to the folder where you want to install Magento
+
+### **Download Repository .zip file**
+
+Navigate to my github repo, click on the "Code" dropdown and select "Download Zip". [https://github.com/codecodeio/magento-docker-local-development](https://github.com/codecodeio/magento-docker-local-development?ref=codecode.io)
+
+### **Run the Build Command**
+
+```
+docker-compose build
+```
+
+\*Any time you change your Dockerfile you need to re-run build. Use --no-cache to be sure it rebuilds everything from scratch.
+
+### **Start the Docker Containers**
+
+```
+docker-compose up -d
+```
+
+\* -d means detached. Leave this off if you want the terminal to display the container log. This can be useful for debugging but all the logs are also shown in Docker Desktop.
+
+When you need to stop the containers run:
+
+```
+docker-compose down
+```
+
+### **Check OpenSearch**
+
+Check OpenSearch from outside the container
+
+```
+curl -XGET 'http://localhost:9200/_cluster/health?pretty'
+```
+
+Check OpenSearch from inside the container. See the "Access the Magento container" section below to see how to do this.
+
+```
+curl -XGET 'http://opensearchvanilla:9200/_cluster/health?pretty'
+```
+
+## **Install Magento**
+
+Once the services are running, you can install Magento from within the running container.
+
+### **Access the Magento container**
+
+Run the following command to open a shell inside the magento container:
+
+```
+docker exec -it <magento_container_name> bash
+```
+
+Replace \<magento\_container\_name> with the actual name of your Magento container. We named the container magentovanilla in our docker-compose.yml file but you can check using `docker ps`. You can also use the container id here.
+
+### **Magento Enterprise Authorization**
+
+If you want to install Magento enterprise you will need your authorization keys. If you want to install Magento Open Source you can skip this step. You can follow the instructions in the extra credit section below to add auth.json to the magento root folder to gain access to future updates of Magento Enterprise. Composer will refuse to install into a folder that has any files in it so we can't add that yet. For now set COMPOSER\_AUTH as a variable in bash so the magento installation will complete.
+
+```
+export COMPOSER_AUTH='{
+    "http-basic": {
+        "repo.magento.com": {
+            "username": "<public-key>",
+            "password": "<private-key>"
+        }
+    }
+}'
+```
+
+Check your authorization keys:
+
+```
+echo $COMPOSER_AUTH
+```
+
+### **Use Composer to Install Magento**
+
+Once inside the container, navigate to the /var/www/html directory (where Magento should be installed). You can install Magento using Composer:
+
+#### **Magento Enterprise Edition**
+
+```
+composer create-project --repository=https://repo.magento.com/ magento/project-enterprise-edition=2.4.6-p6 .
+```
+
+#### **Magento Open Source**
+
+```
+composer create-project --repository=https://repo.magento.com/ magento/project-community-edition=2.4.6-p6 .
+```
+
+**Set Up Magento**
+
+Once the Magento files are installed, run the Magento installation command. Make sure to use the correct database credentials that match those in the docker-compose.yml.
+
+Inside the container, run:
+
+```
+bin/magento setup:install \
+--base-url="http://localhost:8765" \
+--db-host="mariadbvanilla" \
+--db-name="magento" \
+--db-user="magento" \
+--db-password="magento" \
+--admin-firstname="Admin" \
+--admin-lastname="User" \
+--admin-email="admin@example.com" \
+--admin-user="admin" \
+--admin-password="admin123" \
+--backend-frontname="admin" \
+--language="en_US" \
+--currency="USD" \
+--timezone="America/New_York" \
+--use-rewrites=1 \
+--search-engine=opensearch \
+--opensearch-host="opensearchvanilla" \
+--opensearch-port=9200
+```
+
+## **Restart Nginx**
+
+The magento install just created the nginx.conf.sample file needed for nginx to start properly. You'll need to restart this service to get nginx running.
+
+```
+docker-compose restart nginxvanilla
+```
+
+\*You can also run docker-compose down and docker-compose up to restart all services.
+
+**Access Magento**
+
+Once Magento is installed, you should be able to access your site at:
+
+[http://localhost:8765/](http://localhost:8765/?ref=codecode.io)
+
+The Magento admin panel will be available at [http://localhost:8765/admin](http://localhost:8765/admin?ref=codecode.io). \*Disable two factor authentication for the admin so you don't have to deal with this during development with thic command: `bin/magento module:disable Magento_TwoFactorAuth`
+
+## **You Did It! 👏**
+
+Did you ever think you could install Magento so quickly??? It only took 4 commands! 😎
+
+```
+docker-compose build
+docker-compose up
+composer create-project
+bin/magento setup:install
+```
+
+## **Extra Credit**
+
+Coming soon I will post additional instructions to do the following:
+
+1. Install Sample Data.
+2. Install Xdebug
+3. Add auth.json for Magento Enterprise Edition.
+4. Run Multiple Magento Containers.
+5. Import Existing Magento Code and Database.

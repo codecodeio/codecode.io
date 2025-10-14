@@ -44,7 +44,7 @@ const filteredPosts = posts.filter((post) => {
 
 <BaseLayout
 	title={`Blog posts about ${humanize(category)}`}
-	description={`My blog posts on ${humanize(category)} to help you on your journey`}
+	description={`Articles about ${humanize(category)} to help you on your journey`}
 >
 	<div class="site-container mt-24 md:mt-36">
 		<!-- Header -->
@@ -54,7 +54,7 @@ const filteredPosts = posts.filter((post) => {
 				<div class="text-center md:col-span-3 md:text-left">
 					<h1 class="h2 mb-4">Blog</h1>
 					<p class="description opacity-80 lg:text-xl">
-						My blog posts on <span class="decoration-primary underline">{humanize(category)}</span>
+						Articles about <span class="decoration-primary underline">{humanize(category)}</span>
 					</p>
 				</div>
 

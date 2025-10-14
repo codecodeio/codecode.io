@@ -11,7 +11,7 @@ import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
-	site: "https://voyager.cosmicthemes.com",
+	site: "https://www.codecode.io",
 	adapter: netlify({
 		imageCDN: false,
 	}),
@@ -21,7 +21,7 @@ export default defineConfig({
 	// i18n configuration must match src/config/translations.json.ts
 	i18n: {
 		defaultLocale: "en",
-		locales: ["en", "fr"],
+		locales: ["en"],
 		routing: {
 			prefixDefaultLocale: false,
 		},

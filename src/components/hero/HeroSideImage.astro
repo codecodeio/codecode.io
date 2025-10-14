@@ -1,15 +1,10 @@
 ---
 import Button from "@components/button/Button.astro";
 import { getLocaleFromUrl } from "@js/localeUtils";
-import { useTranslations } from "@js/translationUtils";
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 
-import { getLocalizedRoute } from "@/js/translationUtils";
-
 const currLocale = getLocaleFromUrl(Astro.url);
-const t = useTranslations(currLocale);
-
 import heroImage from "@/assets/images/design-img-1-min.jpg";
 ---
 
@@ -52,7 +47,7 @@ import heroImage from "@/assets/images/design-img-1-min.jpg";
 					data-aos-delay="0.2"
 					data-aos-trigger="#hero-side-image"
 				>
-					{t("hero_description")}
+					Hero description
 				</p>
 
 				<div
@@ -62,7 +57,7 @@ import heroImage from "@/assets/images/design-img-1-min.jpg";
 					data-aos-trigger="#hero-side-image"
 				>
 					<Button href="#contact" arrow="right"> Start a Project </Button>
-					<Button href={getLocalizedRoute(currLocale, `/projects`)} variant="ghost">
+					<Button href={`/projects`} variant="ghost">
 						View Work
 					</Button>
 				</div>

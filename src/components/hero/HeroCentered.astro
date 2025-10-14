@@ -1,12 +1,10 @@
 ---
 import Button from "@components/button/Button.astro";
 import { getLocaleFromUrl } from "@js/localeUtils";
-import { useTranslations } from "@js/translationUtils";
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 
 const currLocale = getLocaleFromUrl(Astro.url);
-const t = useTranslations(currLocale);
 ---
 
 <section
@@ -34,7 +32,7 @@ const t = useTranslations(currLocale);
 				data-aos-trigger="#hero-centered"
 				data-aos-duration="1.2"
 			>
-				{t("hero_text")}
+				Hero text
 			</h1>
 			<p
 				class="text-base-400 mb-12 text-xl text-pretty"
@@ -43,7 +41,7 @@ const t = useTranslations(currLocale);
 				data-aos-trigger="#hero-centered"
 				data-aos-duration="1.2"
 			>
-				{t("hero_description")}
+				Hero description
 			</p>
 			<div
 				class="flex justify-center"

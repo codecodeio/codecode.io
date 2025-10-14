@@ -8,11 +8,8 @@ import Languages from "@components/resume/Languages.astro";
 import SoftSkills from "@components/resume/SoftSkills.astro";
 import Tools from "@components/resume/Tools.astro";
 import { getLocaleFromUrl } from "@js/localeUtils";
-import { useTranslations } from "@js/translationUtils";
 import { type CollectionEntry } from "astro:content";
 import { Icon } from "astro-icon/components";
-
-import { getLocalizedRoute } from "@/js/translationUtils";
 
 import BaseLayout from "./BaseLayout.astro";
 
@@ -27,7 +24,6 @@ const { diplomas, experience, hardSkills, softSkills, certifications, languages,
 	resume.data;
 
 const currLocale = getLocaleFromUrl(Astro.url);
-const t = useTranslations(currLocale);
 ---
 
 <BaseLayout type="general" title={title} description={description}>
@@ -67,7 +63,7 @@ const t = useTranslations(currLocale);
 				<Tools {tools} />
 				<!-- you can also limit the number of tools to display here -->
 				<!-- <Tools {tools} limit={4} /> -->
-				<!-- <Button variant="secondary" href={getLocalizedRoute(currLocale, "/tools")} arrow="right">
+				<!-- <Button variant="secondary" href={"/tools"} arrow="right">
 					See all tools
 				</Button> -->
 			</div>

@@ -5,8 +5,6 @@ import { getLocaleFromUrl } from "@js/localeUtils";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { Image } from "astro:assets";
 
-import { getLocalizedRoute } from "@/js/translationUtils";
-
 const currLocale = getLocaleFromUrl(Astro.url);
 ---
 
@@ -39,7 +37,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 
 					<!-- Action Buttons -->
 					<div class="flex flex-wrap justify-center gap-4">
-						<Button href={getLocalizedRoute(currLocale, "/")} variant="primary" arrow="right">
+						<Button href={"/"} variant="primary" arrow="right">
 							Return Home
 						</Button>
 					</div>

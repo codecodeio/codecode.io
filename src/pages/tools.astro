@@ -1,7 +1,6 @@
 ---
 import ToolsComponent from "@components/resume/Tools.astro";
 import { filterCollectionByLanguage, getLocaleFromUrl } from "@js/localeUtils";
-import { useTranslations } from "@js/translationUtils";
 import { type CollectionEntry, getCollection } from "astro:content";
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -20,8 +19,6 @@ const resume = filteredResumes[0];
 
 const { diplomas, experience, hardSkills, softSkills, certifications, languages, tools } =
 	resume.data;
-
-const t = useTranslations(currLocale);
 
 const title = "Tools and Technologies";
 const description = "All the tools and technologies I know";

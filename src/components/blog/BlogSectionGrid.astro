@@ -6,7 +6,6 @@ import BlogIndexGrid from "@layouts/BlogIndexGrid.astro";
 import { getCollection } from "astro:content";
 
 import Button from "@/components/button/Button.astro";
-import { getLocalizedRoute } from "@/js/translationUtils";
 
 const currLocale = getLocaleFromUrl(Astro.url);
 const posts = await getAllPosts(currLocale);
@@ -28,7 +27,7 @@ const slicedPosts = posts.slice(0, 6);
 
 		<div class="mt-16 flex justify-center">
 			<Button
-				href={getLocalizedRoute(currLocale, `/blog`)}
+				href={`/blog`}
 				variant="secondary"
 				class="group"
 				arrow="right"

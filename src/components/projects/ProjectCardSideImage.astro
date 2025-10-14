@@ -5,8 +5,6 @@ import { slugify } from "@js/textUtils";
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 
-import { getLocalizedRoute } from "@/js/translationUtils";
-
 const currLocale = getLocaleFromUrl(Astro.url);
 
 interface Props {
@@ -67,7 +65,7 @@ const { title, description, image, technologies, ...rest } = project.data;
 			</div>
 
 			<Button
-				href={getLocalizedRoute(currLocale, `/projects/${slugify(project.id)}`)}
+				href={`/projects/${slugify(project.id)}`}
 				variant="secondary"
 				arrow="right"
 			>

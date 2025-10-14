@@ -6,7 +6,6 @@ import BlogIndexGridDetailed from "@layouts/BlogIndexGridDetailed.astro";
 import { getCollection } from "astro:content";
 
 import Button from "@/components/button/Button.astro";
-import { getLocalizedRoute } from "@/js/translationUtils";
 
 const currLocale = getLocaleFromUrl(Astro.url);
 const posts = await getAllPosts(currLocale);
@@ -19,22 +18,13 @@ const slicedPosts = posts.slice(0, 6);
 	<div class="site-container">
 		<div class="mx-auto mb-16 max-w-3xl text-center">
 			<h2 class="h2 mb-4">Latest Insights</h2>
-			<p class="description text-xl">
-				Explore our thoughts on design, development, and creative processes
-			</p>
+			<p class="description text-xl">Explore articles about development and everything tech</p>
 		</div>
 
-		<BlogIndexGridDetailed posts={posts} />
+		<BlogIndexGridDetailed posts={slicedPosts} />
 
 		<div class="mt-16 flex justify-center">
-			<Button
-				href={getLocalizedRoute(currLocale, `/blog`)}
-				variant="secondary"
-				class="group"
-				arrow="right"
-			>
-				View All Posts
-			</Button>
+			<Button href={`/blog`} variant="secondary" class="group" arrow="right"> View All </Button>
 		</div>
 	</div>
 </section>

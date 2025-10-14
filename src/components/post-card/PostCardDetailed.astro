@@ -6,8 +6,6 @@ import { Image } from "astro:assets";
 import { type CollectionEntry, getEntries } from "astro:content";
 import { Icon } from "astro-icon/components";
 
-import { getLocalizedRoute } from "@/js/translationUtils";
-
 interface Props {
 	post: CollectionEntry<"blog">;
 	showDescription?: boolean;
@@ -29,7 +27,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 	data-pagefind-ignore
 	{...rest}
 >
-	<a href={getLocalizedRoute(currLocale, `/blog/${post.id}/`)}>
+	<a href={`/blog/${post.id}/`}>
 		<div class="aspect-[16/9] overflow-hidden">
 			<Image
 				src={heroImage}
@@ -43,7 +41,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 			{categories && categories.slice(0, 2).map((category) => <Category category={category} />)}
 		</div>
 		<a
-			href={getLocalizedRoute(currLocale, `/blog/${post.id}/`)}
+			href={`/blog/${post.id}/`}
 			class="hover:text-primary text-xl font-bold transition-colors"
 		>
 			<h2>{title}</h2>
@@ -56,7 +54,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 				{formatDate(pubDate, currLocale)}
 			</time>
 			<a
-				href={getLocalizedRoute(currLocale, `/blog/${post.id}/`)}
+				href={`/blog/${post.id}/`}
 				class="decoration-primary group flex items-center transition-colors hover:underline"
 			>
 				Read More

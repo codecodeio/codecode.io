@@ -5,8 +5,6 @@ import { Image } from "astro:assets";
 import { type CollectionEntry, getEntries } from "astro:content";
 import { Icon } from "astro-icon/components";
 
-import { getLocalizedRoute } from "@/js/translationUtils";
-
 interface Props {
 	post: CollectionEntry<"blog">;
 	showDescription?: boolean;
@@ -21,7 +19,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 ---
 
 <a
-	href={getLocalizedRoute(currLocale, `/blog/${post.id}/`)}
+	href={`/blog/${post.id}/`}
 	class:list={[
 		"group hover:border-primary/30 hover:shadow-primary/5 dark:bg-base-900 overflow-hidden rounded-2xl border bg-white transition-all duration-300 hover:shadow-xl",
 		className,

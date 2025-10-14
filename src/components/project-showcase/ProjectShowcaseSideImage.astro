@@ -6,8 +6,6 @@ import { getLocaleFromUrl } from "@js/localeUtils";
 import { getCollection } from "astro:content";
 import { type CollectionEntry } from "astro:content";
 
-import { getLocalizedRoute } from "@/js/translationUtils";
-
 const currLocale = getLocaleFromUrl(Astro.url);
 
 const projects = await getCollection("projects", ({ data }) => {
@@ -46,7 +44,7 @@ const slicedProjects = sortedProjects.slice(0, 3); // Only show first 3 projects
 
 		<!-- View All Link -->
 		<div class="mt-20 flex justify-center">
-			<Button href={getLocalizedRoute(currLocale, "/projects")} variant="primary" arrow="right">
+			<Button href={"/projects"} variant="primary" arrow="right">
 				View All Projects
 			</Button>
 		</div>

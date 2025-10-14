@@ -3,8 +3,6 @@ import Button from "@components/button/Button.astro";
 import { getLocaleFromUrl } from "@js/localeUtils";
 import BaseLayout from "@layouts/BaseLayout.astro";
 
-import { getLocalizedRoute } from "@/js/translationUtils";
-
 const currLocale = getLocaleFromUrl(Astro.url);
 ---
 
@@ -43,11 +41,11 @@ const currLocale = getLocaleFromUrl(Astro.url);
 				<!-- Landing Pages -->
 				<div class="flex flex-col">
 					<h3 class="overview-heading">Landing Pages</h3>
-					<a class="overview-link" href={getLocalizedRoute(currLocale, "/")}>Landing 1</a>
-					<a class="overview-link" href={getLocalizedRoute(currLocale, "/examples/landing2")}
+					<a class="overview-link" href={"/"}>Landing 1</a>
+					<a class="overview-link" href={"/examples/landing2"}
 						>Landing 2</a
 					>
-					<a class="overview-link" href={getLocalizedRoute(currLocale, "/examples/landing3")}
+					<a class="overview-link" href={"/examples/landing3"}
 						>Landing 3</a
 					>
 				</div>
@@ -57,21 +55,21 @@ const currLocale = getLocaleFromUrl(Astro.url);
 					<h3 class="overview-heading">Blog</h3>
 					<a
 						class="overview-link"
-						href={getLocalizedRoute(currLocale, "/blog/tsconfig-paths-setup")}>Post Layout 1</a
+						href={"/blog/tsconfig-paths-setup"}>Post Layout 1</a
 					>
-					<a class="overview-link" href={getLocalizedRoute(currLocale, "/examples/blog-post-2")}
+					<a class="overview-link" href={"/examples/blog-post-2"}
 						>Post Layout 2</a
 					>
-					<a class="overview-link" href={getLocalizedRoute(currLocale, "/blog")}
+					<a class="overview-link" href={"/blog"}
 						>Blog Detailed Cards</a
 					>
-					<a class="overview-link" href={getLocalizedRoute(currLocale, "/examples/blog-index-2")}
+					<a class="overview-link" href={"/examples/blog-index-2"}
 						>Blog Simple Cards</a
 					>
-					<a class="overview-link" href={getLocalizedRoute(currLocale, "/categories/development")}
+					<a class="overview-link" href={"/categories/development"}
 						>Category Page</a
 					>
-					<a class="overview-link" href={getLocalizedRoute(currLocale, "/categories")}
+					<a class="overview-link" href={"/categories"}
 						>Categories Index</a
 					>
 				</div>
@@ -81,33 +79,33 @@ const currLocale = getLocaleFromUrl(Astro.url);
 					<h3 class="overview-heading">Projects</h3>
 					<a
 						class="overview-link"
-						href={getLocalizedRoute(currLocale, "/projects/virtual-event-platform")}
+						href={"/projects/virtual-event-platform"}
 						>Project Layout</a
 					>
-					<a class="overview-link" href={getLocalizedRoute(currLocale, "/projects")}
+					<a class="overview-link" href={"/projects"}
 						>Projects Index 1</a
 					>
 					<a
 						class="overview-link"
-						href={getLocalizedRoute(currLocale, "/examples/projects-index-2")}>Projects Index 2</a
+						href={"/examples/projects-index-2"}>Projects Index 2</a
 					>
 				</div>
 
 				<!-- Sections -->
 				<div class="flex flex-col">
 					<h3 class="overview-heading">Sections</h3>
-					<a class="overview-link" href={getLocalizedRoute(currLocale, "examples/pricing-faq")}
+					<a class="overview-link" href={"examples/pricing-faq"}
 						>Pricing and FAQ Sections</a
 					>
-					<a class="overview-link" href={getLocalizedRoute(currLocale, "/examples/hero-sections")}
+					<a class="overview-link" href={"/examples/hero-sections"}
 						>Hero Sections</a
 					>
-					<a class="overview-link" href={getLocalizedRoute(currLocale, "/examples/project-process")}
+					<a class="overview-link" href={"/examples/project-process"}
 						>Project Showcase and Process Sections</a
 					>
 					<a
 						class="overview-link"
-						href={getLocalizedRoute(currLocale, "/examples/testimonial-logo-sections")}
+						href={"/examples/testimonial-logo-sections"}
 						>Testimonial and Logo Cloud Sections</a
 					>
 				</div>
@@ -115,17 +113,17 @@ const currLocale = getLocaleFromUrl(Astro.url);
 				<!-- Other -->
 				<div class="flex flex-col">
 					<h3 class="overview-heading">Other Pages</h3>
-					<a class="overview-link" href={getLocalizedRoute(currLocale, "/elements")}
+					<a class="overview-link" href={"/elements"}
 						>MDX Page Elements</a
 					>
-					<a class="overview-link" href={getLocalizedRoute(currLocale, "/resume")}>Resume</a>
-					<a class="overview-link" href={getLocalizedRoute(currLocale, "/tools")}>Tools</a>
+					<a class="overview-link" href={"/resume"}>Resume</a>
+					<a class="overview-link" href={"/tools"}>Tools</a>
 
-					<a class="overview-link" href={getLocalizedRoute(currLocale, "/privacy-policy")}>Legal</a>
+					<a class="overview-link" href={"/privacy-policy"}>Legal</a>
 					<a class="overview-link" href="/not-a-link/">404</a>
 					<a
 						class="overview-link"
-						href={getLocalizedRoute(currLocale, "/rss.xml")}
+						href={"/rss.xml"}
 						target="_blank"
 						rel="noopener noreferrer">RSS Feed</a
 					>
@@ -136,7 +134,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 					<h3 class="overview-heading">Widgets and Forms</h3>
 					<!-- CookieConsent component should be used in BaseLayout.astro if desired -->
 					<button id="test-consent-demo-btn" class="overview-link text-left">Cookie Consent</button>
-					<a class="overview-link" href={getLocalizedRoute(currLocale, "/contact")}>Contact</a>
+					<a class="overview-link" href={"/contact"}>Contact</a>
 				</div>
 			</div>
 		</div>
@@ -149,7 +147,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 				<div class="text-center">
 					<p class="text-sm lg:text-base">
 						We use cookies to improve your experience on this site. To learn more, see our <a
-							href={getLocalizedRoute(currLocale, "/privacy-policy")}
+							href={"/privacy-policy"}
 							class="hover:text-primary text-foreground decoration-primary underline transition"
 							>Privacy Policy</a
 						>.

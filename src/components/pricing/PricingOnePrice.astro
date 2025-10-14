@@ -8,8 +8,6 @@ import Switch from "@components/starwind/switch";
 import { getLocaleFromUrl } from "@js/localeUtils";
 import { Icon } from "astro-icon/components";
 
-import { getLocalizedRoute } from "@/js/translationUtils";
-
 // get the current page locale to use in links to other pages
 const currLocale = getLocaleFromUrl(Astro.url);
 
@@ -135,7 +133,7 @@ const {
 					</ul>
 
 					<Button
-						href={getLocalizedRoute(currLocale, ctaHref)}
+						href={ctaHref}
 						variant="primary"
 						class="w-full text-lg"
 					>

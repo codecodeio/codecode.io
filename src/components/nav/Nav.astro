@@ -9,8 +9,6 @@ import ThemeToggle from "@components/theme-toggle/ThemeToggle.astro";
 import { getLocaleFromUrl } from "@js/localeUtils";
 import { getTranslatedData } from "@js/translationUtils";
 
-import { getLocalizedRoute } from "@/js/translationUtils";
-
 import MegaMenuDropdownToggle from "./NavDropdown/MegaMenuDropdownToggle.astro";
 
 const currLocale = getLocaleFromUrl(Astro.url);
@@ -60,13 +58,13 @@ import { locales } from "@config/siteSettings.json";
 							<!-- don't forget to also update the button in MobileNav.astro! -->
 							<Button
 								variant="primary"
-								href="https://cosmicthemes.com/themes/voyager"
-								class="px-4 py-2 whitespace-nowrap">Get Voyager</Button
+								href="/coming-soon"
+								class="px-4 py-2 whitespace-nowrap">Subscribe</Button
 							>
 
-							<ThemeToggle class="" />
+							<!-- <ThemeToggle class="" /> -->
 
-							{locales.length > 1 && <LanguageSelect class="" />}
+							<!-- {locales.length > 1 && <LanguageSelect class="" />} -->
 						</div>
 
 						<!-- mobile nav menu, only load on small screens where it is visible -->
