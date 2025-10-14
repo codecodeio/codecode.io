@@ -9,9 +9,12 @@ import { defineConfig } from "astro/config";
 import AutoImport from "astro-auto-import";
 import icon from "astro-icon";
 
+// ...existing code...
+const baseUrl = "https://www.codecode.io/";
+
 // https://astro.build/config
 export default defineConfig({
-	site: "https://www.codecode.io",
+	site: baseUrl,
 	adapter: netlify({
 		imageCDN: false,
 	}),
@@ -45,7 +48,28 @@ export default defineConfig({
 		react(),
 		icon(),
 		keystatic(),
-		sitemap(),
+		sitemap({
+			filter: (page) => {
+			const excludedPaths = [
+			"contact/",
+			"elements/",
+			"overview/",
+			"resume/",
+			"tools/",
+			"privacy-policy/",
+			"coming-soon/",
+			];
+			// Remove baseUrl from page for comparison
+			const path = page.replace(baseUrl, "");
+			if (
+			excludedPaths.includes(path) ||
+			path.startsWith("projects/")
+			) {
+			return false;
+			}
+			return true;
+		},
+		}),
 		compress({
 			HTML: true,
 			JavaScript: true,
