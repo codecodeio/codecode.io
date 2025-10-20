@@ -37,9 +37,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 
 					<!-- Action Buttons -->
 					<div class="flex flex-wrap justify-center gap-4">
-						<Button href={"/"} variant="primary" arrow="right">
-							Return Home
-						</Button>
+						<Button href={"/"} variant="primary" arrow="right"> Return Home </Button>
 					</div>
 				</div>
 
@@ -71,7 +69,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 	}
 
 	/* Astronaut Animation */
-	.astronaut {
+	:global(.astronaut) {
 		top: 20%;
 		right: 10%;
 		animation: astronaut 15s ease-in-out infinite;

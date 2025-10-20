@@ -70,7 +70,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 	}
 
 	/* Astronaut Animation */
-	.astronaut {
+	:global(.astronaut) {
 		top: 20%;
 		right: 10%;
 		animation: astronaut 15s ease-in-out infinite;
