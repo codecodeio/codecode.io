@@ -14,15 +14,21 @@ categories:
 ---
 Sometimes JavaScript load order matters. In these cases you need a way to load scripts in a specific order. 1️⃣ 2️⃣ 3️⃣ One example is the fact that BootStrap relies on jQuery being loaded first. 🥇
 
+## Script Chaining
+
 This can be achieved with a simple function called loadScript(). This function appends the script to the head of the html with an onload listener. Once the onload event is triggered it runs the callback function passed in to loadScript(). The function you pass in once again calls the loadScript() function to load the next script. This enables you to chain together any number of scripts that load in a specific order.
 
-Attributes such as 'integrity' and 'crossorigin' should also be assigned to the scripts. These should be passed into the loadScript() function. Then, account for any network issues with an onerror event listener.
+## loadScript() Parameters
+
+Parameters such as 'integrity' and 'crossorigin' should also be assigned to the scripts. These should be passed into the loadScript() function. Then, account for any network issues with an onerror event listener.
 
 Adjust this script to the version of jQuery and/or BootStrap you need using these links:\
 [https://releases.jquery.com/jquery/](https://releases.jquery.com/jquery/?ref=codecode.io)\
 [https://www.bootstrapcdn.com/](https://www.bootstrapcdn.com/?ref=codecode.io)
 
 🏁 Done! You scripts load properly in all scenarios including network failures. Your site works well and all is right with the world!
+
+## Example Script
 
 ```
 /*Function to dynamically load a script with additional attributes*/

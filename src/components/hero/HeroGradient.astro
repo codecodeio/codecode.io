@@ -8,6 +8,10 @@ const currLocale = getLocaleFromUrl(Astro.url);
 ---
 
 <section id="hero-gradient" class="bg-primary-950 dark:bg-base-950">
+	<div class="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+		<div class="stars"></div>
+		<div class="stars2"></div>
+	</div>
 	<div
 		class:list={[
 			"relative flex min-h-[100svh] items-center justify-center overflow-hidden",
