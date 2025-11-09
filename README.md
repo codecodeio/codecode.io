@@ -38,12 +38,15 @@ npm run astro -- --help
 ```bash
 # Preview production build locally
 netlify dev
+ntl dev
 
 # Deploy site to Netlify (if using Netlify CLI)
 netlify deploy
+ntl deploy
 
 # Open Netlify dashboard
 netlify open
+ntl open
 ```
 
 ---
