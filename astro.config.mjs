@@ -10,11 +10,12 @@ import AutoImport from "astro-auto-import";
 import icon from "astro-icon";
 
 // ...existing code...
-const baseUrl = "https://www.codecode.io/";
+const baseUrl = "https://www.codecode.io";
 
 // https://astro.build/config
 export default defineConfig({
 	site: baseUrl,
+	trailingSlash: 'never',
 	adapter: netlify({
 		imageCDN: false,
 	}),
@@ -58,6 +59,7 @@ export default defineConfig({
 			"tools/",
 			"privacy-policy/",
 			"coming-soon/",
+			"subscribe",
 			];
 			// Remove baseUrl from page for comparison
 			const path = page.replace(baseUrl, "");

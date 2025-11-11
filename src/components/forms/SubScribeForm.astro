@@ -1,0 +1,46 @@
+---
+import Button from "@components/button/Button.astro";
+import Mailbox from "@tabler/icons/outline/mailbox.svg";
+
+import { Alert, AlertDescription, AlertTitle } from "@/components/starwind/alert";
+import { Input, InputWrapper } from "@/components/starwind/input";
+import { Label } from "@/components/starwind/label";
+---
+
+<form method="post" class="space-y-8" id="subscribe-form">
+	<InputWrapper>
+		<Label for="email">Email</Label>
+		<Input required name="email" type="email" />
+	</InputWrapper>
+
+	<Button type="submit" class="w-full">Subscribe</Button>
+
+	<Alert variant="error" id="alert-error" hidden>
+		<AlertTitle
+			>Aw jeez! Everybody look at the bright side. Evil Morty got to experience being wrong
+			before he died.</AlertTitle
+		>
+	</Alert>
+	<Alert variant="success" id="alert-success" hidden>
+		<AlertTitle><Mailbox />Thanks for subscribing!</AlertTitle>
+	</Alert>
+</form>
+
+<script>
+	import { actions } from "astro:actions";
+	const form = document.getElementById("subscribe-form") as HTMLFormElement;
+	const alertError = document.getElementById("alert-error");
+	const alertSuccess = document.getElementById("alert-success");
+	form?.addEventListener("submit", async (event) => {
+		event.preventDefault();
+		const formData = new FormData(form);
+		const { data, error } = await actions.subscribe(formData);
+		if (error) {
+			alertError?.removeAttribute("hidden");
+			alertSuccess?.setAttribute("hidden", "true");
+		} else {
+			alertSuccess?.removeAttribute("hidden");
+			alertError?.setAttribute("hidden", "true");
+		}
+	});
+</script>
