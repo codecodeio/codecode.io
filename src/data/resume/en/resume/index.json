@@ -1,132 +1,172 @@
 {
-	"diplomas": [
-		{
-			"title": "Master's in Computer Science",
-			"school": "Stanford University",
-			"year": 2020
-		},
-		{
-			"title": "Bachelor's in Software Engineering",
-			"school": "MIT",
-			"year": 2018
-		}
-	],
-	"certifications": [
-		{
-			"title": "AWS Certified Solutions Architect",
-			"year": 2022
-		},
-		{
-			"title": "Google Cloud Professional Developer",
-			"year": 2021
-		}
-	],
-	"experience": [
-		{
-			"title": "Senior Software Engineer",
-			"company": "TechCorp",
-			"companyImage": "./index/experience/0/companyImage.png",
-			"dates": "Jan 2021 - Present",
-			"location": "San Francisco, CA",
-			"responsibilities": [
-				"Led development of microservices architecture",
-				"Mentored junior developers and conducted code reviews",
-				"Implemented CI/CD pipelines reducing deployment time by 50%",
-				"Architected scalable cloud solutions using AWS"
-			]
-		},
-		{
-			"title": "Technical Lead",
-			"company": "InnovateLabs",
-			"companyImage": "./index/experience/1/companyImage.png",
-			"dates": "Mar 2019 - Dec 2020",
-			"location": "New York, NY",
-			"responsibilities": [
-				"Managed team of 8 developers across multiple projects",
-				"Established coding standards and best practices",
-				"Reduced technical debt by 40% through strategic refactoring",
-				"Implemented agile methodologies improving team productivity"
-			]
-		}
-	],
-	"hardSkills": [
-		{
-			"skill": "JavaScript",
-			"percentage": 95
-		},
-		{
-			"skill": "TypeScript",
-			"percentage": 90
-		},
-		{
-			"skill": "React",
-			"percentage": 92
-		}
-	],
-	"softSkills": [
-		{
-			"skill": "Leadership",
-			"icon": "👑"
-		},
-		{
-			"skill": "Communication",
-			"icon": "🗣️"
-		},
-		{
-			"skill": "Problem Solving",
-			"icon": "🧩"
-		}
-	],
-	"languages": [
-		{
-			"language": "English",
-			"level": 10
-		},
-		{
-			"language": "Spanish",
-			"level": 8
-		},
-		{
-			"language": "French",
-			"level": 6
-		}
-	],
-	"tools": [
-		{
-			"name": "Astro",
-			"category": "Development",
-			"image": "./index/tools/0/image.svg",
-			"link": "https://astro.build"
-		},
-		{
-			"name": "Visual Studio Code",
-			"category": "Development",
-			"image": "./index/tools/1/image.png",
-			"link": "https://code.visualstudio.com"
-		},
-		{
-			"name": "Figma",
-			"category": "Design",
-			"image": "./index/tools/2/image.png",
-			"link": "https://figma.com"
-		},
-		{
-			"name": "Adobe XD",
-			"category": "Design",
-			"image": "./index/tools/3/image.png",
-			"link": "https://adobe.com/products/xd"
-		},
-		{
-			"name": "Webstorm",
-			"category": "Development",
-			"image": "./index/tools/4/image.png",
-			"link": "https://jetbrains.com/webstorm"
-		},
-		{
-			"name": "Docker",
-			"category": "DevOps",
-			"image": "./index/tools/5/image.png",
-			"link": "https://docker.com"
-		}
-	]
+  "diplomas": [
+    {
+      "title": "Master's in Economics",
+      "school": "Rutgers University",
+      "year": 2004
+    },
+    {
+      "title": "Bachelor's in Computer Science",
+      "school": "Rutgers College",
+      "year": 2004
+    }
+  ],
+  "certifications": [
+    {
+      "title": "Magento University: Magento 2 Development Essentials",
+      "year": 2019
+    },
+    {
+      "title": "Celigo Fundamentals on Pluralsight",
+      "year": 2022
+    }
+  ],
+  "experience": [
+    {
+      "title": "Entreprenaur",
+      "company": "CodeCode",
+      "companyImage": "./index/experience/0/companyImage.png",
+      "dates": "Oct 2023 - Present",
+      "location": "Nazareth, PA",
+      "responsibilities": [
+        "Write technical articles",
+        "Build blog site from scratch",
+        "educate and lear new technologies",
+        "<a href=\"www.codecode.io\">www.codecode.io</a>"
+      ]
+    },
+    {
+      "title": "Lead Developer",
+      "company": "Famous Smoke Shop",
+      "companyImage": "./index/experience/1/companyImage.webp",
+      "dates": "April 2008 - Present",
+      "location": "Easton, PA",
+      "responsibilities": [
+        "Managed several e-commerce websites and a team of 3-5 developers",
+        "Management techniques using Agile, Scrum, Jira, GitHub",
+        "Git repository management, branching and release strategy",
+        "Integrations:  Braintree, PayPal, Cloudinary, Sitevibes, Yotpo, Veratad, Melissa Data, Noibu.",
+        "Transitioned custom legacy systems to Enterprise Magento 2 / Celigo / NetSuite.",
+        "CI/CD utilizing GitHub Actions and code sniffers.",
+        "Complex website customizations include page caching, product offers/coupons, excise tax, state fees, and shipping restrictions."
+      ]
+    },
+    {
+      "title": "Web Developer",
+      "company": "GoldSimulations",
+      "companyImage": "./index/experience/2/companyImage.webp",
+      "dates": "Jan 2005 - March 2008",
+      "location": "Milford, NJ",
+      "responsibilities": [
+        "Developed a microeconomics simulation: btmgame.com",
+        "Payment integration via Authorize.net",
+        "Design and build corporate website goldsimulations.com",
+        "Collaboration with Economics professors on economics models"
+      ]
+    }
+  ],
+  "hardSkills": [
+    {
+      "skill": "JavaScript",
+      "percentage": 90
+    },
+    {
+      "skill": "TypeScript",
+      "percentage": 90
+    },
+    {
+      "skill": "PHP",
+      "percentage": 95
+    },
+    {
+      "skill": "TailWind CSS",
+      "percentage": 80
+    },
+    {
+      "skill": "Astro",
+      "percentage": 90
+    },
+    {
+      "skill": "Git / GitHub / GitHub Actions",
+      "percentage": 95
+    },
+    {
+      "skill": "CI / CD",
+      "percentage": 95
+    }
+  ],
+  "softSkills": [
+    {
+      "skill": "Leadership",
+      "icon": "👑"
+    },
+    {
+      "skill": "Communication",
+      "icon": "🗣️"
+    },
+    {
+      "skill": "Problem Solving",
+      "icon": "🧩"
+    },
+    {
+      "skill": "Critical Thinking",
+      "icon": "🧠"
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "level": 10
+    }
+  ],
+  "tools": [
+    {
+      "name": "Astro",
+      "category": "Development",
+      "image": "./index/tools/0/image.svg",
+      "link": "https://astro.build"
+    },
+    {
+      "name": "Visual Studio Code",
+      "category": "Development",
+      "image": "./index/tools/1/image.png",
+      "link": "https://code.visualstudio.com"
+    },
+    {
+      "name": "Docker",
+      "category": "DevOps",
+      "image": "./index/tools/2/image.png",
+      "link": "https://docker.com"
+    },
+    {
+      "name": "Git / GitHub",
+      "category": "DevOps",
+      "image": "./index/tools/3/image.svg",
+      "link": "https://github.com/"
+    },
+    {
+      "name": "PHP",
+      "category": "Languages",
+      "image": "./index/tools/4/image.svg",
+      "link": "https://www.php.net"
+    },
+    {
+      "name": "Magento",
+      "category": "Development",
+      "image": "./index/tools/5/image.svg",
+      "link": "https://business.adobe.com/products/commerce.html"
+    },
+    {
+      "name": "JavaScript",
+      "category": "Languages",
+      "image": "./index/tools/6/image.svg",
+      "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+    },
+    {
+      "name": "Terminal",
+      "category": "Development",
+      "image": "./index/tools/7/image.svg",
+      "link": "https://zsh.sourceforge.io"
+    }
+  ]
 }
