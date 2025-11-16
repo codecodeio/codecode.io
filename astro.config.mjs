@@ -52,20 +52,20 @@ export default defineConfig({
 		sitemap({
 			filter: (page) => {
 			const excludedPaths = [
-			"contact/",
-			"elements/",
-			"overview/",
-			"resume/",
-			"tools/",
-			"privacy-policy/",
-			"coming-soon/",
-			"subscribe",
+			"/contact",
+			"/elements",
+			"/overview",
+			"/projects"
+,			"/resume",
+			"/tools",
+			"/privacy-policy",
+			"coming-soon",
 			];
 			// Remove baseUrl from page for comparison
 			const path = page.replace(baseUrl, "");
 			if (
 			excludedPaths.includes(path) ||
-			path.startsWith("projects/")
+			path.startsWith("/projects/")
 			) {
 			return false;
 			}
