@@ -10,7 +10,7 @@
 import faqDataEn from "./en/faqData.json";
 import navDataEn from "./en/navData.json";
 import siteDataEn from "./en/siteData.json";
-import testimonialDataEn from "./en/testimonialData.json";
+//import testimonialDataEn from "./en/testimonialData.json";
 
 export const dataTranslations = {
   
@@ -18,7 +18,7 @@ export const dataTranslations = {
 		siteData: siteDataEn,
 		navData: navDataEn,
 		faqData: faqDataEn,
-		testimonialData: testimonialDataEn,
+		//testimonialData: testimonialDataEn,
 	},
 	
 } as const;
