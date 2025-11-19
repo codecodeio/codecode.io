@@ -129,7 +129,7 @@ const navConfig: navItem[] = [
 	// },
 	{
 		text: "Explore",
-		link: "/blog",
+		link: "/blog/",
 	},
 	// {
 	// 	text: "Resume",
