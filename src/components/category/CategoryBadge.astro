@@ -17,7 +17,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 {
 	category && (
 		<a
-			href={`/categories/${slugify(category)}/`}
+			href={`/categories/${slugify(category)}`}
 			class:list={[
 				"rounded-full px-3 py-1 text-sm",
 				"transition-colors",
