@@ -12,6 +12,7 @@ type Props = HTMLAttributes<"a"> & {
 	type?: "button" | "submit" | "reset" | null | undefined;
 	variant?: "primary" | "secondary" | "outline" | "ghost";
 	arrow?: "left" | "right" | "none";
+	disabled?: boolean;
 };
 
 const { variant = "primary", arrow = "none", class: className, ...rest } = Astro.props;
