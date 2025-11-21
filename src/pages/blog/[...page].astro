@@ -4,9 +4,18 @@ import { getAllPosts } from "@js/blogUtils";
 import { getLocaleFromUrl } from "@js/localeUtils";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import BlogIndexLayout from "@layouts/BlogIndexGridDetailed.astro";
+import type { Page } from "astro";
+import { defaultLocale } from "@/config/siteSettings.json";
+import Pagination from "@components/pagination/Pagination.astro";
 
-const currLocale = getLocaleFromUrl(Astro.url);
-const posts = await getAllPosts(currLocale);
+export async function getStaticPaths({ paginate }) {
+  const posts = await getAllPosts(defaultLocale);
+
+  return paginate(posts, {
+    pageSize: 6,
+  });
+}
+const { page } = Astro.props as { page: Page };
 ---
 
 <BaseLayout
@@ -41,6 +50,13 @@ const posts = await getAllPosts(currLocale);
 		</div>
 
 		<!-- Blog Posts Grid -->
-		<BlogIndexLayout posts={posts} class="mt-10 pb-12 md:pb-24" />
+    <BlogIndexLayout posts={page.data} class="mt-10 pb-12 md:pb-24" />
+    <Pagination
+        basePath={`/blog/`}
+        prevUrl={page.url.prev}
+        currPage={page.currentPage}
+        nextUrl={page.url.next}
+        lastPage={page.lastPage}
+      />
 	</div>
 </BaseLayout>
