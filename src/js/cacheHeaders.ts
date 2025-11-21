@@ -1,5 +1,9 @@
-// src/utils/setCacheHeaders.js
-export function setCacheHeaders(Astro, cacheTag) {
+interface CacheHeadersContext {
+  response: { headers: Headers };
+  url: URL;
+}
+
+export function setCacheHeaders(Astro: CacheHeadersContext, cacheTag?: string): void {
   // The browser should always check freshness
   Astro.response.headers.set("cache-control", "public, max-age=0, must-revalidate");
   // The CDN should cache for a year, but revalidate if the cache tag changes
