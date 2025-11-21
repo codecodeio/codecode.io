@@ -24,9 +24,12 @@ import TestimonialSwiper from "@components/testimonials/TestimonialSwiper.astro"
 import { getLocaleFromUrl } from "@js/localeUtils";
 import { getTranslatedData } from "@js/translationUtils";
 import BaseLayout from "@layouts/BaseLayout.astro";
+import { setCacheHeaders } from "@js/cacheHeaders";
 
 const currLocale = getLocaleFromUrl(Astro.url);
 const siteData = getTranslatedData("siteData", currLocale);
+
+setCacheHeaders(Astro, "homepage");
 ---
 
 <BaseLayout title={siteData.title} description={siteData.description}>

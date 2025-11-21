@@ -7,6 +7,7 @@ import BlogIndexLayout from "@layouts/BlogIndexGridDetailed.astro";
 import type { Page } from "astro";
 import { defaultLocale } from "@/config/siteSettings.json";
 import Pagination from "@components/pagination/Pagination.astro";
+import { setCacheHeaders } from "@js/cacheHeaders";
 
 export async function getStaticPaths({ paginate }) {
   const posts = await getAllPosts(defaultLocale);
@@ -16,6 +17,8 @@ export async function getStaticPaths({ paginate }) {
   });
 }
 const { page } = Astro.props as { page: Page };
+
+setCacheHeaders(Astro);
 ---
 
 <BaseLayout

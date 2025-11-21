@@ -12,6 +12,7 @@ import { getAllPosts } from "@js/blogUtils";
 import BlogLayout from "@layouts/BlogLayoutSidebar.astro";
 import { type InferGetStaticPropsType } from "astro";
 import { render } from "astro:content";
+import { setCacheHeaders } from "@js/cacheHeaders";
 
 export async function getStaticPaths() {
 	const posts = await getAllPosts(defaultLocale);
@@ -25,6 +26,8 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const post = Astro.props as Props;
 const { Content, headings } = await render(post);
+
+setCacheHeaders(Astro);
 ---
 
 <BlogLayout post={post} headings={headings}>

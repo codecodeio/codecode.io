@@ -5,6 +5,7 @@ import { filterCollectionByLanguage } from "@js/localeUtils";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { type InferGetStaticPropsType } from "astro";
 import { type CollectionEntry, getCollection, render } from "astro:content";
+import { setCacheHeaders } from "@js/cacheHeaders";
 
 export async function getStaticPaths() {
 	const otherPages: CollectionEntry<"otherPages">[] = await getCollection(
@@ -33,6 +34,7 @@ const page = Astro.props as Props;
 // convert markdown to html
 const { Content } = await render(page);
 const { title, description } = page.data;
+setCacheHeaders(Astro);
 ---
 
 <BaseLayout title={title} description={description}>

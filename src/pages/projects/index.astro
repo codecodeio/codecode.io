@@ -7,6 +7,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import { type CollectionEntry, getCollection, render } from "astro:content";
 
 import ProjectCard from "@/components/projects/ProjectCard.astro";
+import { setCacheHeaders } from "@js/cacheHeaders";
 
 const currLocale = getLocaleFromUrl(Astro.url);
 
@@ -23,6 +24,8 @@ const sortedProjects = filteredProjects.sort(
 const allTechnologies = [
 	...new Set(projects.flatMap((project) => project.data.technologies)),
 ].sort();
+
+setCacheHeaders(Astro);
 ---
 
 <BaseLayout

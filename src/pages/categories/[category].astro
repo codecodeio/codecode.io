@@ -2,6 +2,7 @@
 import CategoryCloud from "@components/category-cloud/CategoryCloud.astro";
 import { defaultLocale } from "@config/siteSettings.json";
 import { countItems, getAllPosts, sortByValue } from "@js/blogUtils";
+import { setCacheHeaders } from "@js/cacheHeaders";
 import { getLocaleFromUrl } from "@js/localeUtils";
 import { humanize, slugify } from "@js/textUtils";
 import BaseLayout from "@layouts/BaseLayout.astro";
@@ -40,6 +41,8 @@ const filteredPosts = posts.filter((post) => {
 
 	return slugifiedCategory.includes(category);
 });
+
+setCacheHeaders(Astro);
 ---
 
 <BaseLayout

@@ -2,8 +2,11 @@
 import CategoryCloud from "@components/category-cloud/CategoryCloud.astro";
 import { getLocaleFromUrl } from "@js/localeUtils";
 import BaseLayout from "@layouts/BaseLayout.astro";
+import { setCacheHeaders } from "@js/cacheHeaders";
 
 const currLocale = getLocaleFromUrl(Astro.url);
+
+setCacheHeaders(Astro);
 ---
 
 <BaseLayout title="Blog Categories" description="Explore our blog posts by category">

@@ -4,6 +4,8 @@ import { filterCollectionByLanguage } from "@js/localeUtils";
 import { getLocaleFromUrl } from "@js/localeUtils";
 import ResumeLayout from "@layouts/ResumeLayout.astro";
 import { type CollectionEntry, getCollection } from "astro:content";
+import { set } from "astro:schema";
+import { setCacheHeaders } from "@js/cacheHeaders";
 
 const currLocale = getLocaleFromUrl(Astro.url);
 const resumes = await getCollection("resume");
@@ -16,6 +18,8 @@ const filteredResumes = filterCollectionByLanguage(
 
 // should only be one resume
 const resume = filteredResumes[0];
+
+setCacheHeaders(Astro);
 ---
 
 <ResumeLayout title="Resume" description="My Professional Experience & Skills" {resume}>

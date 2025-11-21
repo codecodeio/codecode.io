@@ -5,6 +5,7 @@ import { filterCollectionByLanguage } from "@js/localeUtils";
 import ProjectLayout from "@layouts/ProjectLayout.astro";
 import { type InferGetStaticPropsType } from "astro";
 import { type CollectionEntry, getCollection, render } from "astro:content";
+import { setCacheHeaders } from "@js/cacheHeaders";
 
 export async function getStaticPaths() {
 	const projects = await getCollection("projects", ({ data }) => {
@@ -27,6 +28,7 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const project = Astro.props as Props;
 const { Content } = await render(project);
+setCacheHeaders(Astro);
 ---
 
 <ProjectLayout project={project}>
