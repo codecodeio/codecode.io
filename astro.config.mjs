@@ -15,7 +15,7 @@ const baseUrl = "https://www.codecode.io";
 // https://astro.build/config
 export default defineConfig({
 	site: baseUrl,
-	trailingSlash: 'always',
+	trailingSlash: 'ignore',
 	adapter: netlify({
 		imageCDN: false,
 	}),
