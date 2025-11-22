@@ -1,0 +1,68 @@
+---
+title: Simplified MAN Pages Using TLDR
+description: >-
+  The tldr pages are a community effort to simplify the beloved man pages with
+  practical examples.
+draft: false
+authors:
+  - matthew
+pubDate: 2025-11-21
+heroImage: ../simplified-man-pages-using-tldr/heroImage.png
+categories:
+  - terminal
+---
+&#x20;If you have ever tried to use a man page you know how complicated and overwhelming they can be. For example the man page for git, `man git`,  is 1,647 lines of plain text. 😵‍💫 The [tldr pages](https://github.com/tldr-pages/tldr) CLI is a community effort to simplify [man pages](https://en.wikipedia.org/wiki/Man_page) with practical examples.
+
+## man page example
+
+```bash
+$ man git
+
+NAME
+       git - the stupid content tracker
+
+SYNOPSIS
+       git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]
+           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]
+           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]
+           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]
+           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]
+           <command> [<args>]
+
+DESCRIPTION
+Git is a fast, scalable, distributed revision control system with an unusually rich command set that provides both high-level operations and full access to internals.
+...
+```
+
+## TLDR
+
+There is a better way; type, `tldr git`, and you will see 37 lines of useful color coded examples. 😌
+
+```bash
+$ tldr git
+
+Distributed version control system.
+Some subcommands such as commit, add, branch, switch, push, etc. have their own usage documentation.
+More information: https://git-scm.com/docs/git.
+
+Create an empty Git repository:
+
+  git init
+
+Clone a remote Git repository from the internet:
+
+  git clone https://example.com/repo.git
+...
+```
+
+## Installation
+
+The [github page](https://github.com/tldr-pages/tldr) and [tldr.sh website](https://tldr.sh/) list several ways to install tldr but the easiest way on a Mac is to use brew.&#x20;
+
+```bash
+brew install tlrc
+```
+
+"tlrc" is not a typo. The "tldr" project on brew was abandoned and replaced by "tlrc".&#x20;
+
+Enjoy getting getting useful command line examples instantly, no AI required! 🤖
