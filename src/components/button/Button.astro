@@ -7,18 +7,21 @@ import { Icon } from "astro-icon/components";
  *  if this is to be a link (<a>), pass an "href" prop
  *  if this is to be a button (<button>), pass a "type" prop
  *  you can pass the arrow prop with "left" or "right" to add an arrow to any button variant
+ * to use javascript history back functionality, set historyBack to true and optionally provide a historyBackDefault URL
  */
 type Props = HTMLAttributes<"a"> & {
 	type?: "button" | "submit" | "reset" | null | undefined;
 	variant?: "primary" | "secondary" | "outline" | "ghost";
 	arrow?: "left" | "right" | "none";
 	disabled?: boolean;
+	historyBack?: boolean;
+	historyBackDefault?: string;
 };
 
-const { variant = "primary", arrow = "none", class: className, ...rest } = Astro.props;
+const { variant = "primary", arrow = "none", class: className, historyBack = false, historyBackDefault = "/", ...rest } = Astro.props as Props;
 
-let Component = "button";
-if (Astro.props.href) {
+let Component: string = "button";
+if (!historyBack && Astro.props.href) {
 	Component = "a";
 }
 ---
@@ -40,6 +43,12 @@ if (Astro.props.href) {
 			"button--ghost": variant === "ghost",
 		},
 	]}
+	{...(historyBack
+		? {
+			onclick: `if(history.length>1){history.back()}else{window.location.href='${historyBackDefault}'}`,
+			type: rest.type ?? "button",
+		}
+		: {})}
 	{...rest}
 >
 	{
