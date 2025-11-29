@@ -32,7 +32,7 @@
         "Write technical articles",
         "Build blog site from scratch",
         "educate and lear new technologies",
-        "<a href=\"www.codecode.io\">www.codecode.io</a>"
+        "<a href=\"https://www.codecode.io\" target=\"_blank\">www.codecode.io</a>"
       ]
     },
     {
@@ -167,6 +167,18 @@
       "category": "Development",
       "image": "./index/tools/7/image.svg",
       "link": "https://zsh.sourceforge.io"
+    },
+    {
+      "name": "macOS",
+      "category": "Development",
+      "image": "./index/tools/8/image.png",
+      "link": "https://www.apple.com/os/macos/"
+    },
+    {
+      "name": "Linux",
+      "category": "Development",
+      "image": "./index/tools/9/image.png",
+      "link": "https://www.linux.org/"
     }
   ]
 }

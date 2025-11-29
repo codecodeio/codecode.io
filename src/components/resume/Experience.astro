@@ -25,7 +25,7 @@ const { experience } = Astro.props;
 							/>
 						</div>
 						<div class="flex-1">
-							<div class="flex flex-wrap items-start justify-between gap-2">
+							<div class="flex flex-wrap items-center justify-between gap-2">
 								<div>
 									<h3 class="text-lg font-bold">{exp.title}</h3>
 								</div>
@@ -39,7 +39,7 @@ const { experience } = Astro.props;
 								{exp.responsibilities.map((responsibility) => (
 									<li class="flex items-start gap-2">
 										<span class="text-primary">•</span>
-										<span class="opacity-70">{responsibility}</span>
+										<span class="opacity-70" set:html={responsibility}></span>
 									</li>
 								))}
 							</ul>

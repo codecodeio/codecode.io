@@ -27,8 +27,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 ---
 
 <BaseLayout type="general" title={title} description={description}>
-	<div class="site-container mt-24 md:mt-36">
-		<div class="mx-auto max-w-4xl">
+	<div class="site-container mt-24 md:mt-36 w-full overflow-x-hidden">
 			<!-- Header -->
 			<div class="mb-16 flex flex-col items-center justify-between gap-6 sm:flex-row">
 				<div class="text-center sm:text-left">
