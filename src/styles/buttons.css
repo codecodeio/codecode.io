@@ -1,6 +1,6 @@
 /* buttons, 4 variants: "primary", "secondary", "outline", "ghost" */
 .button {
-	@apply flex w-fit min-w-[8rem] items-center justify-center rounded-full px-8 py-4 font-medium duration-200;
+	@apply flex w-fit min-w-[8rem] items-center justify-center rounded-full px-8 py-3 font-medium duration-200;
 	@apply focus:ring-offset-base-200 dark:focus:ring-offset-base-800 focus:outline-hidden;
 	@apply disabled:pointer-events-none;
 }
