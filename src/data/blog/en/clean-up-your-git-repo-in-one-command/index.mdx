@@ -1,0 +1,109 @@
+---
+title: Clean Up Your Git Repo In One Command
+description: >-
+  Learn how to use a single gitopt command to clean up stale branches, prunes
+  remotes, and optimize Git storage.
+draft: false
+authors:
+  - matthew
+pubDate: 2026-01-11
+heroImage: ../clean-up-your-git-repo-in-one-command/heroImage.webp
+categories:
+  - git
+---
+Over time, Git repositories quietly collect junk: deleted branches, stale remote refs, and bloated object storage. None of this breaks Git—but it *does* slow things down.
+
+That’s why I created a single command: **`gitopt`**&#x74;o clean and optimize your git repository.
+
+`gitopt` optimizes storage, removes dead branches, and keeps local and remote state in sync—all in one shot. This results in smaller, faster repositories and accurate branch lists all in one command instead of five steps that you will forget next time.
+
+Let's go through how `gitopt` works step by step so you feel comfortable using it.
+
+## gitopt Alias
+
+```
+alias gitopt='gc && branchcleanref && branchclean && gitpruneauto'
+```
+
+This is the one command to rule them all. Navigate to your git repository and run it after you have added the aliases to your shell config file (`~/.zshrc` or `~/.bashrc`).
+
+## gc Alias
+
+```
+alias gc='git gc --aggressive'
+```
+
+Deep-cleans Git’s internal storage by compressing objects and removing unreachable data. You don't have to use the `--aggressive` option but I think the cleaner the better.
+
+## branchcleanref Alias
+
+```
+alias branchcleanref='git remote update origin --prune'
+```
+
+Removes local references to remote branches that no longer exist. This keeps `git branch -r` up to date and accurate.
+
+## branchclean Alias
+
+```
+branchclean() { git branch -vv | grep ': gone]'|  grep -v "\*" | awk '{ print $1; }' | xargs -r git branch -d }
+```
+
+Deletes **local branches** whose remote counterparts were already deleted. Branch switching happens often, and `git branch -l` will happily list branches that no longer exist on the remote. This keeps your local branch list accurate and clutter-free.
+
+This command looks intimidating at first, so let’s break it down piece by piece.
+
+### git branch -vv
+
+Shows all local branches, including which remote branch they track and whether that remote branch still exists. `-vv` stands for very verbose so it gets all the branch info including the status.
+
+### grep ': gone]'
+
+&#x20;Filters the list to branches where Git reports the remote branch was deleted. When deleted git adds the text ':gone]' to the list of branches if they have been deleted.
+
+### grep -v "\*"
+
+Prevents deleting the branch you’re currently on. Git adds a "\*" to the branch you are on when listing branches.
+
+### awk '\{ print $1; }'
+
+Pulls out the local branch name from each matching line. `awk` is a text processing program. This pulls out the first, `$1`, column of text which is the branch name. `awk` uses a space as the delimiter by default.
+
+### xargs -r git branch -d
+
+Deletes each branch only if it’s already merged, and does nothing if the list is empty. xargs is a program that converts input text into arguments. It takes the list of deleted branches and passes them as arguments to the `git branch -d` command. This results in something like `git branchh -d branch1 branch2`
+
+## gitpruneauto Alias
+
+```
+alias gitpruneauto='git config remote.origin.prune true && git config -l'
+```
+
+Tells Git to automatically prune deleted remote branches on every `git pull` or `git fetch`. This only needs to run once but I tacked it on to the `gitopt` alias so when I run this on a new repository it automatically gets set.
+
+## All Git Optimization Aliases
+
+```
+# Automatically prune deleted remote branches on every fetch or pull
+alias gitpruneauto='git config remote.origin.prune true && git config -l'
+
+# Update local references to match the remote repository
+alias branchcleanref='git remote update origin --prune'
+
+# List all remote branches
+alias branchlist='git branch -r'
+
+# List local branches whose remote counterparts were deleted
+branchcleanlist() { 
+    git branch -vv | grep ': gone]' | grep -v "\*" | awk '{ print $1; }' 
+}
+
+# Delete local branches whose remote counterparts were deleted
+branchclean() { 
+    git branch -vv | grep ': gone]' | grep -v "\*" | awk '{ print $1; }' | xargs -r git branch -d 
+}
+
+# Full repository cleanup: garbage collection, prune remotes, remove deleted branches, and auto-prune config.
+alias gitopt='gc && branchcleanref && branchclean && gitpruneauto'
+
+```
