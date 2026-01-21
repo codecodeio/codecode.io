@@ -1,0 +1,9 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import AsciiMovie from "@components/asciimovie/AsciiMovie.astro";
+---
+<BaseLayout title="CodeCode ASCII Movie" description="Watch the CodeCode ASCII movie animation.">
+    <div class="mt-20">
+    <AsciiMovie src="/asciimovies/codecode.txt" fpsBase={15} />
+    </div>
+</BaseLayout>

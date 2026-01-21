@@ -1,0 +1,88 @@
+---
+import Button from '@components/button/Button.astro';
+
+interface Props {
+	src?: string;
+	fpsBase?: number;
+}
+
+const { src = '', fpsBase = 15 } = Astro.props as Props;
+---
+<div class="flex flex-col items-center">
+<pre
+	id="ascii-movie"
+	aria-live="polite"
+	data-src={src}
+	data-fps={fpsBase}
+		class="font-mono leading-tight whitespace-pre text-[10px] sm:text-[12px] md:text-[14px] lg:text-[20px] max-w-full overflow-x-auto"
+></pre>
+	<div class="mt-4 flex items-center gap-3">
+		<a href="/ascii-movies" class="hover:underline">&leftarrow; Back to Video Store</a>
+		<span aria-hidden="true">&middot;</span>
+		<a id="ascii-rewind" href="#" class="hover:underline">Be Kind, Rewind</a>
+	</div>
+</div>
+
+<script>
+(async () => {
+	const pre = document.getElementById('ascii-movie');
+	if (!pre) return;
+
+	const el = pre as HTMLElement & { dataset: { src?: string; fps?: string } };
+	const src = el.dataset.src || '/asciimovies/rickroll.txt';
+	const fpsRaw = parseInt(el.dataset.fps ?? '15', 10);
+	const fpsBase = Number.isFinite(fpsRaw) && fpsRaw > 0 ? fpsRaw : 15;
+
+		const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+		const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+		try {
+			const res = await fetch(src, { cache: 'no-cache' });
+			if (!res.ok) throw new Error('Failed to load ASCII movie');
+			const text = await res.text();
+
+			const rawLines = text
+				.replace(/\r\n/g, '\n')
+				.replace(/\r/g, '\n')
+				.split('\n');
+
+			while (rawLines.length && rawLines[rawLines.length - 1] === '') rawLines.pop();
+
+			const frames: Array<{ delay: number; lines: string[] }> = [];
+			let i = 0;
+			while (i < rawLines.length) {
+				const delayRaw = rawLines[i++] ?? '1';
+				const delay = clamp(parseInt(delayRaw, 10) || 1, 1, 15);
+				const lines = rawLines.slice(i, i + 13);
+				i += 13;
+				frames.push({ delay, lines });
+			}
+
+			let playVersion = 0;
+			const play = async () => {
+				const myVersion = ++playVersion;
+				for (const f of frames) {
+					pre.textContent = f.lines.join('\n');
+					const ms = (f.delay / fpsBase) * 1000;
+					await wait(ms);
+					if (myVersion !== playVersion) return;
+				}
+			};
+
+			// Initial play
+			play();
+
+			// Rewind button: restart without reloading
+			const rewind = document.getElementById('ascii-rewind');
+			if (rewind) {
+				rewind.addEventListener('click', (e) => {
+					e.preventDefault();
+					play();
+				});
+			}
+		} catch (err) {
+			console.error(err);
+			pre.textContent = 'Failed to load ASCII movie.';
+		}
+	})();
+</script>
