@@ -1,6 +1,4 @@
 ---
-import Button from '@components/button/Button.astro';
-
 interface Props {
 	src?: string;
 	fpsBase?: number;
@@ -28,17 +26,40 @@ const { src = '', fpsBase = 15 } = Astro.props as Props;
 	const pre = document.getElementById('ascii-movie');
 	if (!pre) return;
 
-	const el = pre as HTMLElement & { dataset: { src?: string; fps?: string } };
-	const src = el.dataset.src || '/asciimovies/rickroll.txt';
-	const fpsRaw = parseInt(el.dataset.fps ?? '15', 10);
-	const fpsBase = Number.isFinite(fpsRaw) && fpsRaw > 0 ? fpsRaw : 15;
-
+		const el = pre as HTMLElement & { dataset: { src?: string; fps?: string } };
+		const src = el.dataset.src ?? '';
+		const fpsRaw = parseInt(el.dataset.fps ?? '15', 10);
+		const fpsBase = Number.isFinite(fpsRaw) && fpsRaw > 0 ? fpsRaw : 15;
 		const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
 		const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+		const defaultRes =`
++--------------------------------------------------------------+
+| .----.                                              .----.   |
+| | () |==============================================| () |   |
+| '----'     V H S    —     ASCII Movie Not Found     '----'   |
+|                                                              |
+|                                                              |
+|                                                              |
+|                           404                                |
+|                                                              |
+|                                                              |
+|                                                              |
+| .----.                                              .----.   |
+| | () |==============================================| () |   |
+| '----'                                              '----'   |
++--------------------------------------------------------------+
+`;
+		if (!src) {
+			pre.textContent = defaultRes;
+			return;
+		}
 
 		try {
 			const res = await fetch(src, { cache: 'no-cache' });
-			if (!res.ok) throw new Error('Failed to load ASCII movie');
+			if (!res.ok) {
+				pre.textContent = defaultRes;
+				return;
+			}
 			const text = await res.text();
 
 			const rawLines = text

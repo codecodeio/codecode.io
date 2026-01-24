@@ -1,0 +1,115 @@
+---
+title: Building an ASCII Animation Player (Inspired by Star Wars Asciimation)
+description: >-
+  After discovering the legendary Star Wars Asciimation, I built my own
+  JavaScript ASCII movie player. Here's the format, the code, and why it's
+  amazing.
+draft: false
+authors:
+  - matthew
+pubDate: 2026-01-24
+heroImage: ../ascii-animation-player-inspired-by-star-wars-asciimation/heroImage.webp
+categories:
+  - Development
+---
+I stumbled across something so absurdly cool I immediately thought "I need to build my own version of this"? That's exactly what I did when I discovered [Asciimation](https://www.asciimation.co.nz/).
+
+## Star Wars in ASCII
+
+Asciimation is a website created by Simon Jansen. He received an email in 1997 with a crude ASCII joke animation—the kind where you're supposed to hit PageDown to advance frames. Most people would chuckle and move on. However, he decided to ASCII-animate the entire first Star Wars movie. Frame by painstaking frame. 67 characters wide by 13 lines tall. Over 16,000 frames. When asked "Why (oh God, why)?",  he answed: "Well, it seemed like a good idea at the time."
+
+## How This Works&#x20;
+
+Beyond the Pure Joy of Star Wars in Ascii format, ASCII animation is beautifully constrained. You're working with:
+
+* Fixed-width monospace characters
+* A limited canvas size
+* Plain text files
+* Frame-by-frame animation principles
+
+These constraints force you to be creative. Want a blaster bolt? That's gonna be `-`, `=`, or `*`. Want R2-D2? Better break out your bracket game. It's like pixel art's nerdy cousin who spent too much time in the terminal.
+
+The text file has a number every 14 lines. The number can be between 1 and 15 making the movie go up to 15 FPS. The number is used to determine how long a single frame will display before the next one is rendered.
+
+## Inspired to Build My Own Thing
+
+After spending way too long watching ASCII Star Wars, I had to build something, if only to preserve the format. You never know when these personal sites are going to disappear.
+
+Being a web developer, I built a simple JavaScript that I could easily place on my own site. I decided to create an intro to my website, just the name, an explosion, and the tagline.
+
+Check out my [ascii video store!](/ascii-movies)
+
+### The Storyboard, Picture this ;)
+
+Two "Code" words fly in from opposite sides of the screen, collide into an explosion of ASCII chaos, scatter, and reorganize into "CodeCode". Then the tagline animates in in slowly.&#x20;
+
+### The Player: Astro + Vanilla JS
+
+The player component (`AsciiMovie.astro`) is straightforward:
+
+1. **Fetch the movie file** - It's just a text file, so a simple fetch works
+2. **Parse into frames** - Read 14 lines at a time, first line is delay, next 13 are content
+3. **Play the frames** - Loop through, render each frame to a `<pre>`, wait the appropriate time
+4. **Add rewind** - Because every good BlockBuster patron reminisces about "Be Kind, Rewind" stickers.
+
+Here's the core play logic (simplified for clarity):
+
+```
+const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+const wait = (ms) => new Promise(r => setTimeout(r, ms));
+
+// Parse the file into frames
+const frames = [];
+for (let i = 0; i < rawLines.length;) {
+  const delay = clamp(parseInt(rawLines[i++] || '1', 10) || 1, 1, 15);
+  const lines = rawLines.slice(i, i + 13);
+  i += 13;
+  frames.push({ delay, lines });
+}
+
+// Play the animation
+async function play() {
+  for (const frame of frames) {
+    pre.textContent = frame.lines.join('\n');
+    await wait((frame.delay / 15) * 1000);
+  }
+}
+```
+
+No complex state management. No fancy libraries. Just promises, loops, and text rendering.
+
+### The Interruption Pattern
+
+One neat trick: the rewind button needs to cancel any in-progress playback. I use a version counter:
+
+```
+let playVersion = 0;
+
+async function play() {
+  const myVersion = ++playVersion;
+  for (const frame of frames) {
+    if (myVersion !== playVersion) return; // Someone hit rewind
+    // ... render frame
+  }
+}
+```
+
+Each time you start playback, you increment the version. If the version changes mid-play, you bail out. The original version stops and the new one starts.
+
+## Creating Your First Asciimation
+
+If you are interested in creating your own asciimation, start small. Don't try to animate the Death Star trench run on your first attempt. It could take hours to piece together 10 seconds of animation.
+
+**Use a good editor.** Even if you us AI as a starting point you will need to make edits. Using an editor with multi-cursor support is your friend.
+
+## Could this be a thing?
+
+I'm not going to pretend that I would ever have the time to create Star wars episode 5 but this is the internet. If enough people have interest I could envision a collaborative effort to create it on GitHub using PR's to add new scenes one at a time. Wouldn't it be fun to decline a PR because a the aesthetic of a scene in star wars isn't fully captured? 🙃 Reach out and perhaps we can all collaborate episode V.
+
+## The Original Asciimation
+
+I encourage you to check out the original asciimation on [https://www.asciimation.co.nz/](https://www.asciimation.co.nz/)
+
+---
+
+*Have you built any ASCII animations? Want to share your own creations? Drop a comment or reach out. I'd love to add to my Ascii Video Store. Let's keep this fun, nerdy art form alive.*
