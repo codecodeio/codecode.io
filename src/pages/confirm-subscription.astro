@@ -14,34 +14,19 @@ const SEGMENT_ID_GENERAL = "b196b0c9-b1d4-4ade-b89e-288c80d754b5";
 const tokenHash = Astro.url.searchParams.get("token_hash");
 const type = Astro.url.searchParams.get("type") as "email" | "magiclink" | null;
 
-// Debug: Log incoming parameters
-console.log("=== Confirm Subscription Debug ===");
-console.log("tokenHash:", tokenHash);
-console.log("type:", type);
-console.log("Full URL:", Astro.url.toString());
-
 let status: "success" | "error" | "invalid" = "invalid";
 let errorMessage = "";
 
 if (tokenHash && type) {
-  console.log("Calling verifyOtp with:", { token_hash: tokenHash, type });
-
-  // Verify the magic link token - use whatever type is in the URL
   const { data, error } = await supabase.auth.verifyOtp({
     token_hash: tokenHash,
     type: type,
   });
 
-  // Debug: Log verifyOtp response
-  console.log("verifyOtp response - data:", JSON.stringify(data, null, 2));
-  console.log("verifyOtp response - error:", error);
-
   if (error) {
     status = "error";
     errorMessage = error.message;
-    console.error("Supabase verifyOtp error:", error);
   } else if (data.user?.email) {
-    console.log("User email found:", data.user.email);
     // Success! Add to Resend contacts
     const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
@@ -67,11 +52,7 @@ if (tokenHash && type) {
 
       status = "success";
     }
-  } else {
-    console.log("No user email in response - data.user:", data.user);
   }
-} else {
-  console.log("Missing tokenHash or type, skipping verifyOtp");
 }
 ---
 
