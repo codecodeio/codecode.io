@@ -10,37 +10,138 @@ import { Label } from "@/components/starwind/label";
 <form method="post" class="space-y-8" id="subscribe-form">
 	<InputWrapper>
 		<Label for="email">Email</Label>
-		<Input required name="email" type="email" />
+		<Input required name="email" type="email" id="subscribe-email" />
 	</InputWrapper>
 
-	<Button type="submit" class="w-full">Subscribe</Button>
+	<Button type="submit" class="w-full" id="subscribe-button">
+		<span id="button-text">Subscribe</span>
+		<span id="button-spinner" hidden class="inline-flex items-center gap-2">
+			<svg
+				class="h-4 w-4 animate-spin"
+				xmlns="http://www.w3.org/2000/svg"
+				fill="none"
+				viewBox="0 0 24 24"
+			>
+				<circle
+					class="opacity-25"
+					cx="12"
+					cy="12"
+					r="10"
+					stroke="currentColor"
+					stroke-width="4"></circle>
+				<path
+					class="opacity-75"
+					fill="currentColor"
+					d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+				></path>
+			</svg>
+			Sending...
+		</span>
+	</Button>
 
 	<Alert variant="error" id="alert-error" hidden>
-		<AlertTitle
-			>Aw jeez! Everybody look at the bright side. Evil Morty got to experience being wrong
-			before he died.</AlertTitle
-		>
+		<AlertTitle>Something went wrong</AlertTitle>
+		<AlertDescription id="error-message">Please try again later.</AlertDescription>
 	</Alert>
-	<Alert variant="success" id="alert-success" hidden>
-		<AlertTitle><Mailbox />Thanks for subscribing!</AlertTitle>
+
+	<Alert variant="success" id="alert-pending" hidden>
+		<AlertTitle><Mailbox />Check your inbox!</AlertTitle>
+		<AlertDescription>
+			We've sent a confirmation link to your email. Click the link to complete your
+			subscription.
+		</AlertDescription>
 	</Alert>
+
+	<div id="resend-container" hidden class="text-center text-sm text-base-400">
+		Didn't receive the email?
+		<button type="button" id="resend-button" class="text-primary-500 hover:text-primary-400 underline">
+			Resend confirmation
+		</button>
+	</div>
 </form>
 
 <script>
 	import { actions } from "astro:actions";
+
 	const form = document.getElementById("subscribe-form") as HTMLFormElement;
+	const emailInput = document.getElementById("subscribe-email") as HTMLInputElement;
+	const button = document.getElementById("subscribe-button") as HTMLButtonElement;
+	const buttonText = document.getElementById("button-text");
+	const buttonSpinner = document.getElementById("button-spinner");
 	const alertError = document.getElementById("alert-error");
-	const alertSuccess = document.getElementById("alert-success");
+	const alertPending = document.getElementById("alert-pending");
+	const errorMessage = document.getElementById("error-message");
+	const resendContainer = document.getElementById("resend-container");
+	const resendButton = document.getElementById("resend-button");
+
+	let subscribedEmail = "";
+
+	function setLoading(loading: boolean) {
+		button.disabled = loading;
+		if (loading) {
+			buttonText?.setAttribute("hidden", "true");
+			buttonSpinner?.removeAttribute("hidden");
+		} else {
+			buttonText?.removeAttribute("hidden");
+			buttonSpinner?.setAttribute("hidden", "true");
+		}
+	}
+
+	function showError(message: string) {
+		if (errorMessage) errorMessage.textContent = message;
+		alertError?.removeAttribute("hidden");
+		alertPending?.setAttribute("hidden", "true");
+		resendContainer?.setAttribute("hidden", "true");
+	}
+
+	function showPending() {
+		alertPending?.removeAttribute("hidden");
+		alertError?.setAttribute("hidden", "true");
+		resendContainer?.removeAttribute("hidden");
+		emailInput.readOnly = true;
+		button.setAttribute("hidden", "true");
+	}
+
 	form?.addEventListener("submit", async (event) => {
 		event.preventDefault();
+		setLoading(true);
+
 		const formData = new FormData(form);
-		const { data, error } = await actions.subscribe(formData);
+		subscribedEmail = formData.get("email") as string;
+
+		const { error } = await actions.subscribe(formData);
+
+		setLoading(false);
+
 		if (error) {
-			alertError?.removeAttribute("hidden");
-			alertSuccess?.setAttribute("hidden", "true");
+			showError(error.message || "Please try again later.");
 		} else {
-			alertSuccess?.removeAttribute("hidden");
-			alertError?.setAttribute("hidden", "true");
+			showPending();
+		}
+	});
+
+	resendButton?.addEventListener("click", async () => {
+		if (!subscribedEmail) return;
+
+		setLoading(true);
+
+		const formData = new FormData();
+		formData.append("email", subscribedEmail);
+
+		const { error } = await actions.resendConfirmation(formData);
+
+		setLoading(false);
+
+		if (error) {
+			showError(error.message || "Failed to resend. Please try again.");
+		} else {
+			// Brief visual feedback that email was resent
+			if (resendButton) {
+				resendButton.textContent = "Sent!";
+				setTimeout(() => {
+					resendButton.textContent = "Resend confirmation";
+				}, 2000);
+			}
 		}
 	});
 </script>

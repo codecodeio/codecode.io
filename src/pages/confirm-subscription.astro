@@ -1,0 +1,128 @@
+---
+// This page must be server-rendered to access query parameters at request time
+export const prerender = false;
+
+import { supabase } from "@js/supabase";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { Resend } from "resend";
+
+import { Alert, AlertDescription, AlertTitle } from "@/components/starwind/alert";
+
+const SEGMENT_ID_GENERAL = "b196b0c9-b1d4-4ade-b89e-288c80d754b5";
+
+// Get token_hash and type from URL (custom email template provides these as query params)
+const tokenHash = Astro.url.searchParams.get("token_hash");
+const type = Astro.url.searchParams.get("type") as "email" | "magiclink" | null;
+
+// Debug: Log incoming parameters
+console.log("=== Confirm Subscription Debug ===");
+console.log("tokenHash:", tokenHash);
+console.log("type:", type);
+console.log("Full URL:", Astro.url.toString());
+
+let status: "success" | "error" | "invalid" = "invalid";
+let errorMessage = "";
+
+if (tokenHash && type) {
+  console.log("Calling verifyOtp with:", { token_hash: tokenHash, type });
+
+  // Verify the magic link token - use whatever type is in the URL
+  const { data, error } = await supabase.auth.verifyOtp({
+    token_hash: tokenHash,
+    type: type,
+  });
+
+  // Debug: Log verifyOtp response
+  console.log("verifyOtp response - data:", JSON.stringify(data, null, 2));
+  console.log("verifyOtp response - error:", error);
+
+  if (error) {
+    status = "error";
+    errorMessage = error.message;
+    console.error("Supabase verifyOtp error:", error);
+  } else if (data.user?.email) {
+    console.log("User email found:", data.user.email);
+    // Success! Add to Resend contacts
+    const resend = new Resend(import.meta.env.RESEND_API_KEY);
+
+    const { error: createError } = await resend.contacts.create({
+      email: data.user.email,
+      unsubscribed: false,
+    });
+
+    if (createError) {
+      console.error("Resend contacts.create error:", createError);
+      status = "error";
+      errorMessage = "Failed to add to mailing list. Please try again.";
+    } else {
+      // Add to segment
+      const { error: segmentError } = await resend.contacts.segments.add({
+        email: data.user.email,
+        segmentId: SEGMENT_ID_GENERAL,
+      });
+
+      if (segmentError) {
+        console.error("Resend contacts.segments.add error:", segmentError);
+      }
+
+      status = "success";
+    }
+  } else {
+    console.log("No user email in response - data.user:", data.user);
+  }
+} else {
+  console.log("Missing tokenHash or type, skipping verifyOtp");
+}
+---
+
+<BaseLayout
+  title="Confirm Subscription"
+  description="Confirm your email subscription to CodeCode.io"
+  noindex={true}
+>
+  <section class="site-container py-24">
+    <div class="mx-auto max-w-lg">
+      {
+        status === "success" && (
+          <Alert variant="success">
+            <AlertTitle>Subscription Confirmed!</AlertTitle>
+            <AlertDescription>
+              Your email has been verified and you're now subscribed to the
+              newsletter.
+            </AlertDescription>
+          </Alert>
+        )
+      }
+
+      {
+        status === "error" && (
+          <Alert variant="error">
+            <AlertTitle>Something went wrong</AlertTitle>
+            <AlertDescription>
+              {errorMessage ||
+                "The confirmation link may have expired or already been used. Please try subscribing again."}
+            </AlertDescription>
+          </Alert>
+        )
+      }
+
+      {
+        status === "invalid" && (
+          <Alert variant="warning">
+            <AlertTitle>Invalid Link</AlertTitle>
+            <AlertDescription>
+              This confirmation link is invalid. Please check your email for the
+              correct link or subscribe again.
+            </AlertDescription>
+          </Alert>
+        )
+      }
+
+      <div class="mt-8 text-center">
+        <a href="/" class="text-primary-500 hover:text-primary-400 underline">
+          Return to homepage
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
