@@ -1,11 +1,11 @@
 ---
 import ContactSection from "@components/contact/ContactSectionSimple.astro";
+import { setCacheHeaders } from "@js/cacheHeaders";
 import { filterCollectionByLanguage } from "@js/localeUtils";
 import { getLocaleFromUrl } from "@js/localeUtils";
 import ResumeLayout from "@layouts/ResumeLayout.astro";
 import { type CollectionEntry, getCollection } from "astro:content";
 import { set } from "astro:schema";
-import { setCacheHeaders } from "@js/cacheHeaders";
 
 const currLocale = getLocaleFromUrl(Astro.url);
 const resumes = await getCollection("resume");

@@ -1,8 +1,8 @@
 ---
 import CategoryCloud from "@components/category-cloud/CategoryCloud.astro";
+import { setCacheHeaders } from "@js/cacheHeaders";
 import { getLocaleFromUrl } from "@js/localeUtils";
 import BaseLayout from "@layouts/BaseLayout.astro";
-import { setCacheHeaders } from "@js/cacheHeaders";
 
 const currLocale = getLocaleFromUrl(Astro.url);
 

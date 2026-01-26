@@ -1,11 +1,11 @@
 ---
 import ExternalLink from "@components/markdown-components/ExternalLink.astro";
 import { defaultLocale } from "@config/siteSettings.json";
+import { setCacheHeaders } from "@js/cacheHeaders";
 import { filterCollectionByLanguage } from "@js/localeUtils";
 import ProjectLayout from "@layouts/ProjectLayout.astro";
 import { type InferGetStaticPropsType } from "astro";
 import { type CollectionEntry, getCollection, render } from "astro:content";
-import { setCacheHeaders } from "@js/cacheHeaders";
 
 export async function getStaticPaths() {
 	const projects = await getCollection("projects", ({ data }) => {
