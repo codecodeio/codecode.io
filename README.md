@@ -10,10 +10,11 @@ Shout out to [Cosmic Themes](https://cosmicthemes.com/) for making beautiful, mo
 
 | Version | Description                                   | Status   |
 | ------- | --------------------------------------------- | -------- |
-| 1.0.0   | Site Launch: Customized Cosmic Theme: Voyager | Current  |
-| 1.1.0   | Pagination for blog listings                  | Upcoming |
-| 1.2.0   | Resend Integration for Subscriptions          | Upcoming |
-| 1.3.0   | Tip jar for user support/donations            | Upcoming |
+| 1.0.0   | Site Launch: Customized Cosmic Theme: Voyager | Complete |
+| 1.0.1   | Pagination for blog listings                  | Complete |
+| 1.0.2   | Resend Integration for Subscriptions          | Complete |
+| 1.0.3   | Double opt in sign up with Subabase/Resend    | Current  |
+| 1.0.4   | Tip jar for user support/donations            | Upcoming |
 
 ---
 
@@ -21,16 +22,16 @@ Shout out to [Cosmic Themes](https://cosmicthemes.com/) for making beautiful, mo
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Start local dev server
-npm run dev
+pnpm run dev
 
 # Build for production
-npm run build
+pnpm run build
 
 # Run Astro CLI commands
-npm run astro -- --help
+pnpm run astro -- --help
 ```
 
 ## Basic Netlify Commands
@@ -89,14 +90,6 @@ This project is based on a theme. To keep the theme code and any customizations 
    git checkout -b theme upstream/main
    git push -u origin theme
    ```
-
-### Daily Workflow
-- Make blog changes in `main`, then:
-  ```bash
-  git add .
-  git commit -m "Describe change"
-  git push
-  ```
 
 ### Theme Updates
 ```bash
