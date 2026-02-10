@@ -9,6 +9,69 @@ interface RSSItem {
   pubDate: string;
 }
 
+interface OgMetadata {
+  title: string;
+  description: string;
+  image: string;
+}
+
+// Fetch Open Graph metadata from a URL
+async function fetchOgMetadata(url: string): Promise<OgMetadata> {
+  const response = await fetch(url);
+  const html = await response.text();
+
+  const getMetaContent = (property: string): string => {
+    // Find all meta tags, then check for matching property
+    const metaTags = html.match(/<meta[^>]*>/gi) || [];
+    for (const tag of metaTags) {
+      // Check if this tag has the right property (quoted or unquoted)
+      const propMatch = tag.match(
+        new RegExp(`property=(?:["']${property}["']|${property}(?=[\\s>]))`, "i")
+      );
+      if (!propMatch) continue;
+      // Extract content value (quoted or unquoted)
+      const contentMatch =
+        tag.match(/content="([^"]*)"/i) ||
+        tag.match(/content='([^']*)'/i) ||
+        tag.match(/content=([^\s>]+)/i);
+      if (contentMatch) return contentMatch[1] ?? "";
+    }
+    return "";
+  };
+
+  // Resolve relative image URLs to absolute
+  const rawImage = getMetaContent("og:image");
+  const origin = new URL(url).origin;
+  const image = rawImage && !rawImage.startsWith("http") ? `${origin}${rawImage}` : rawImage;
+
+  return {
+    title: getMetaContent("og:title"),
+    description: getMetaContent("og:description"),
+    image,
+  };
+}
+
+// Download an image and upload it as a blob to Bluesky
+async function uploadThumbnail(
+  imageUrl: string,
+  agent: BskyAgent
+) {
+  try {
+    const response = await fetch(imageUrl);
+    if (!response.ok) return undefined;
+
+    const contentType = response.headers.get("content-type") || "image/jpeg";
+    const arrayBuffer = await response.arrayBuffer();
+    const uint8Array = new Uint8Array(arrayBuffer);
+
+    const { data } = await agent.uploadBlob(uint8Array, { encoding: contentType });
+    return data.blob;
+  } catch (error) {
+    console.error("Failed to upload thumbnail:", error);
+    return undefined;
+  }
+}
+
 // Parse RSS feed to get latest post
 async function getLatestPost(siteUrl: string): Promise<RSSItem | null> {
   const response = await fetch(`${siteUrl}/rss.xml`);
@@ -36,7 +99,8 @@ async function getLatestPost(siteUrl: string): Promise<RSSItem | null> {
 // Post to Bluesky
 async function postToBluesky(
   text: string,
-  agent: BskyAgent
+  agent: BskyAgent,
+  embed?: { $type: string; [key: string]: unknown }
 ): Promise<{ uri: string; cid: string }> {
   const rt = new RichText({ text });
   await rt.detectFacets(agent); // Detects links and mentions
@@ -44,6 +108,7 @@ async function postToBluesky(
   const result = await agent.post({
     text: rt.text,
     facets: rt.facets,
+    embed,
     createdAt: new Date().toISOString(),
   });
 
@@ -112,7 +177,6 @@ export const handler: Handler = async (event) => {
     const postDate = new Date(latestPost.pubDate);
     const now = new Date();
     const tenMinutes = 10 * 60 * 1000;
-    //const tenMinutes = 15 * 24 * 60 * 60 * 1000; // 15 days for testing
 
     if (now.getTime() - postDate.getTime() > tenMinutes) {
       return { statusCode: 200, body: "No new posts to share" };
@@ -130,9 +194,29 @@ export const handler: Handler = async (event) => {
       password: process.env.BLUESKY_APP_PASSWORD,
     });
 
-    // Compose and post
-    const postText = `${latestPost.title}\n\n${latestPost.link}`;
-    const result = await postToBluesky(postText, agent);
+    // Fetch OG metadata and build embed
+    const og = await fetchOgMetadata(latestPost.link);
+    const external: Record<string, unknown> = {
+      uri: latestPost.link,
+      title: og.title || latestPost.title,
+      description: og.description || latestPost.description,
+    };
+
+    if (og.image) {
+      const thumb = await uploadThumbnail(og.image, agent);
+      if (thumb) {
+        external.thumb = thumb;
+      }
+    }
+
+    const embed = {
+      $type: "app.bsky.embed.external",
+      external,
+    };
+
+    // Post with just the title — the link card provides the URL
+    const postText = latestPost.title;
+    const result = await postToBluesky(postText, agent, embed);
 
     // Record successful post to Supabase
     await recordPost(latestPost.link, result.uri);
