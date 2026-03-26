@@ -170,6 +170,7 @@ export const handler: Handler = async (event) => {
     const latestPost = await getLatestPost(siteUrl);
 
     if (!latestPost) {
+      console.log("No posts found in RSS");
       return { statusCode: 200, body: "No posts found in RSS" };
     }
 
@@ -181,11 +182,13 @@ export const handler: Handler = async (event) => {
     const yesterdayStr = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString().split("T")[0];
 
     if (postDateStr !== todayStr && postDateStr !== yesterdayStr) {
+      console.log(`No new posts to share (latest post: ${latestPost.link}, pubDate: ${postDateStr})`);
       return { statusCode: 200, body: "No new posts to share" };
     }
 
     // Check if already posted (Supabase deduplication)
     if (await wasAlreadyPosted(latestPost.link)) {
+      console.log(`Already posted: ${latestPost.link}`);
       return { statusCode: 200, body: "Already posted" };
     }
 
@@ -223,6 +226,7 @@ export const handler: Handler = async (event) => {
     // Record successful post to Supabase
     await recordPost(latestPost.link, result.uri);
 
+    console.log(`Successfully posted to Bluesky: ${result.uri}`);
     return {
       statusCode: 200,
       body: JSON.stringify({ success: true, post: result }),
