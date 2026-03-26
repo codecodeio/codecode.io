@@ -14,8 +14,8 @@ Shout out to [Cosmic Themes](https://cosmicthemes.com/) for making beautiful, mo
 | 1.0.1     | Pagination for blog listings                   | Complete    |
 | 1.0.2     | Resend Integration for Subscriptions           | Complete    |
 | 1.0.3     | Double opt-in sign up with Supabase/Resend     | Complete    |
-| **1.0.4** | **Auto share published articles to Bluesky**   | **Current** |
-| 1.0.5     | Tip jar for user support/donations             | Upcoming    |
+| 1.0.4     | Auto share published articles to Bluesky       | Complete    |
+| **1.0.5** | **Tip jar for user support/donations**         | **Upcoming** |
 
 ---
 

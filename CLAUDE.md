@@ -15,8 +15,13 @@ npm run build            # Build for production
 npm run preview          # Preview production build
 
 # Code Quality
+npm run check            # Astro type checking (catches type errors in .astro, .ts, .tsx)
 npm run format           # ESLint + Prettier formatting (run before commits)
 npm run lint             # Run ESLint only
+
+# Project Scripts
+npm run config-i18n      # Interactive CLI wizard to configure i18n (locale folders, config files)
+npm run remove-keystatic # Removes Keystatic CMS entirely (moves files, updates config, uninstalls packages)
 
 # Netlify CLI (use pnpm, not npm)
 pnpm install             # Install dependencies for Netlify
@@ -41,7 +46,8 @@ netlify functions:invoke <function-name> --payload '{}'  # Test a function
 - `src/layouts/` - Page templates (BaseLayout, BlogLayoutCentered, etc.)
 - `src/data/` - Blog posts, authors, projects, resume data
 - `src/config/` - Site settings, navigation, translations
-- `src/js/` - Utility functions (blogUtils, translationUtils, localeUtils)
+- `src/js/` - Utility functions (blogUtils, translationUtils, localeUtils, cacheHeaders)
+- `src/actions/` - Astro server actions (subscribe, resendConfirmation)
 
 **Path Aliases** (configured in tsconfig.json):
 - `@components`, `@js`, `@config`, `@layouts`, `@assets`, `@images`
@@ -56,7 +62,11 @@ netlify functions:invoke <function-name> --payload '{}'  # Test a function
 
 **Animations**: AOS (Animate On Scroll) via anime.js. Toggle with `siteSettings.useAnimations`.
 
-**Email Subscriptions**: Double opt-in flow using Supabase for subscriber storage and Resend for transactional emails. Users submit email, receive confirmation link, and are marked confirmed in Supabase upon clicking.
+**Email Subscriptions**: Double opt-in flow using Supabase OTP for subscriber storage and Resend for transactional emails. Form actions are in `src/actions/index.ts` (`subscribe`, `resendConfirmation`). Users submit email → receive OTP confirmation link → confirmed in Supabase on click.
+
+**UI Components**: Starwind UI component library (accordion, switch, input, label, textarea, alert) configured in `starwind.config.json`. Components live in `src/components/starwind/`.
+
+**Cache Headers**: `src/js/cacheHeaders.ts` provides a `setCacheHeaders()` utility for Netlify CDN caching (1-year CDN durability, always-revalidate for browsers). Used on server-rendered pages like `/subscribe` and `/coming-soon`.
 
 ## Branching Strategy
 
