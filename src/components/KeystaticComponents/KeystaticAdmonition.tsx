@@ -9,7 +9,7 @@ interface Props {
 	variant: "tip" | "caution" | "danger" | "info";
 }
 
-const KeystaticAdmonition = ({ variant, children }: Props & { children: React.ReactNode }) => {
+const KeystaticAdmonition = ({ variant, children }: Props & { children: unknown }) => {
 	let color;
 	if (variant === "tip") {
 		color = "#6ee7b7";

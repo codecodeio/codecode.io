@@ -314,8 +314,6 @@ export async function generateRouteTranslations() {
 		}
 	});
 
-	// console.log("Entries by mapping:", entriesByMapping);
-
 	// Assign and generate unique key names dynamically for each mapped item
 	let itemIndex = 1;
 
@@ -330,6 +328,5 @@ export async function generateRouteTranslations() {
 		});
 	});
 
-	// console.log("Generated dynamic route translations:", dynamicRouteTranslations);
 	return dynamicRouteTranslations;
 }

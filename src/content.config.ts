@@ -1,4 +1,4 @@
-import { file, glob } from "astro/loaders";
+import { glob } from "astro/loaders";
 import { defineCollection, reference, z } from "astro:content";
 
 // Type-check frontmatter using a schema

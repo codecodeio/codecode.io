@@ -8,8 +8,6 @@ const { headings, levels = 2 } = Astro.props as Props;
 
 // filter out all tags above depth level specified
 const filteredHeadings = headings.filter((heading) => heading.depth <= levels + 1);
-
-// console.log(JSON.stringify(headings, null, 4));
 ---
 
 <div class="dark:bg-base-900 mt-1 rounded-2xl border bg-white p-6 leading-tight">

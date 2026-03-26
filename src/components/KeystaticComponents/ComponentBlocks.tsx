@@ -1,5 +1,5 @@
 import { fields } from "@keystatic/core";
-import { block, wrapper } from "@keystatic/core/content-components";
+import { wrapper } from "@keystatic/core/content-components";
 
 // preview components
 import KeystaticAdmonition from "./KeystaticAdmonition";

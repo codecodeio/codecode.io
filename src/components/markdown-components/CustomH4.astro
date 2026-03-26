@@ -8,7 +8,6 @@ const currLocale = getLocaleFromUrl(Astro.url);
 const { id, ...rest }: Record<string, any> = Astro.props;
 
 const domain = Astro.url.origin + await getLocalizedPathname(currLocale, Astro.url); // pulls from astro.config.mjs
-// console.log(domain + "#" + id);
 ---
 
 <h4 id={id} {...rest} class="group flex flex-wrap items-center gap-2">

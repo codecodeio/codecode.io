@@ -38,11 +38,8 @@ export async function getAllPosts(
 	// if a language is passed, filter the posts by that language
 	let filteredPosts: CollectionEntry<"blog">[];
 	if (lang) {
-		// console.log("filtering by language", lang);
 		filteredPosts = filterCollectionByLanguage(posts, lang) as CollectionEntry<"blog">[];
-		// filteredPosts = posts;
 	} else {
-		// console.log("no language passed, returning all posts");
 		filteredPosts = posts;
 	}
 
@@ -109,7 +106,7 @@ export function formatPosts(
 	// remove locale from URL
 	if (removeLocale) {
 		filteredPosts.forEach((post) => {
-			// console.log("removing locale from slug for post", post.id);
+	
 			post.id = removeLocaleFromSlug(post.id);
 		});
 	}
@@ -120,50 +117,6 @@ export function formatPosts(
 	}
 
 	return filteredPosts;
-}
-
-// --------------------------------------------------------
-/**
- * * returns true if the posts are related to each other
- * @param postOne: CollectionEntry<"blog">
- * @param postTwo: CollectionEntry<"blog">
- * @returns true if the posts are related, false if not
- *
- * note: this currently compares by categories
- *
- * In a production site, you might want to implement a more robust algorithm, choosing related posts based on tags, categories, dates, authors, or keywords.
- * See example: https://blog.codybrunner.com/2024/adding-related-articles-with-astro-content-collections/
- */
-export function arePostsRelated(
-	postOne: CollectionEntry<"blog">,
-	postTwo: CollectionEntry<"blog">,
-): boolean {
-	// if titles are the same, then they are the same post. return false
-	if (postOne.id === postTwo.id) return false;
-
-	// if either post has no categories, return false
-	if (
-		!postOne.data.categories ||
-		!postTwo.data.categories ||
-		postOne.data.categories.length === 0 ||
-		postTwo.data.categories.length === 0
-	)
-		return false;
-
-	const postOneCategories = postOne.data.categories
-		.filter((category): category is string => typeof category === "string")
-		.map((category) => slugify(category));
-
-	const postTwoCategories = postTwo.data.categories
-		.filter((category): category is string => typeof category === "string")
-		.map((category) => slugify(category));
-
-	// if any tags or categories match, return true
-	const categoriesMatch = postOneCategories.some((category) =>
-		postTwoCategories.includes(category),
-	);
-
-	return categoriesMatch;
 }
 
 // --------------------------------------------------------
