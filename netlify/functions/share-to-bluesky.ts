@@ -118,7 +118,8 @@ async function postToBluesky(
 // Check if post was already shared (Supabase deduplication)
 async function wasAlreadyPosted(postUrl: string): Promise<boolean> {
   if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SECRET_KEY) {
-    return false; // Skip deduplication if Supabase not configured
+    console.log("Supabase not configured — skipping deduplication check");
+    return false;
   }
 
   const supabase = createClient(
@@ -174,6 +175,8 @@ export const handler: Handler = async (event) => {
       return { statusCode: 200, body: "No posts found in RSS" };
     }
 
+    console.log(`Latest post: "${latestPost.title}" (${latestPost.link})`);
+
     // Check if post was published today or yesterday (UTC) to handle timezone offsets
     const postDate = new Date(latestPost.pubDate);
     const now = new Date();
@@ -191,6 +194,8 @@ export const handler: Handler = async (event) => {
       console.log(`Already posted: ${latestPost.link}`);
       return { statusCode: 200, body: "Already posted" };
     }
+
+    console.log("Dedup check passed — proceeding to post");
 
     // Login to Bluesky
     const agent = new BskyAgent({ service: "https://bsky.social" });
