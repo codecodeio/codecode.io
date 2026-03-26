@@ -173,12 +173,14 @@ export const handler: Handler = async (event) => {
       return { statusCode: 200, body: "No posts found in RSS" };
     }
 
-    // Check if post is recent (within last 24 hours)
+    // Check if post was published today or yesterday (UTC) to handle timezone offsets
     const postDate = new Date(latestPost.pubDate);
     const now = new Date();
-    const oneDay = 24 * 60 * 60 * 1000;
+    const postDateStr = postDate.toISOString().split("T")[0];
+    const todayStr = now.toISOString().split("T")[0];
+    const yesterdayStr = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString().split("T")[0];
 
-    if (now.getTime() - postDate.getTime() > oneDay) {
+    if (postDateStr !== todayStr && postDateStr !== yesterdayStr) {
       return { statusCode: 200, body: "No new posts to share" };
     }
 
