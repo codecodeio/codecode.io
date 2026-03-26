@@ -173,12 +173,12 @@ export const handler: Handler = async (event) => {
       return { statusCode: 200, body: "No posts found in RSS" };
     }
 
-    // Check if post is recent (within last 10 minutes)
+    // Check if post is recent (within last 24 hours)
     const postDate = new Date(latestPost.pubDate);
     const now = new Date();
-    const tenMinutes = 10 * 60 * 1000;
+    const oneDay = 24 * 60 * 60 * 1000;
 
-    if (now.getTime() - postDate.getTime() > tenMinutes) {
+    if (now.getTime() - postDate.getTime() > oneDay) {
       return { statusCode: 200, body: "No new posts to share" };
     }
 
