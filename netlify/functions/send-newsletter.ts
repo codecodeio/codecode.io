@@ -1,7 +1,8 @@
-import { render } from "@react-email/render";
 import type { Handler } from "@netlify/functions";
-import { Resend } from "resend";
+import { render } from "@react-email/render";
 import { createClient } from "@supabase/supabase-js";
+import { Resend } from "resend";
+
 import { NewPostEmail } from "../../src/emails/NewPostEmail";
 
 interface RSSItem {
