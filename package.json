@@ -25,6 +25,8 @@
 		"@fontsource/archivo-black": "5.2.5",
 		"@keystatic/astro": "5.0.6",
 		"@keystatic/core": "0.5.47",
+		"@react-email/components": "^1.0.10",
+		"@react-email/render": "^2.0.4",
 		"@supabase/supabase-js": "^2.91.1",
 		"@tabler/icons": "3.31.0",
 		"@tailwindcss/forms": "0.5.10",
