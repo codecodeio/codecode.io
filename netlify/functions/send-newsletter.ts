@@ -210,8 +210,9 @@ export const handler: Handler = async (event) => {
     !process.env.RESEND_AUDIENCE_ID ||
     !process.env.SEND_EMAIL_FROM
   ) {
+    // Return 200 so Netlify does not auto-disable the webhook on misconfiguration
     console.error("Resend credentials not configured");
-    return { statusCode: 500, body: "Resend credentials not configured" };
+    return { statusCode: 200, body: "Resend credentials not configured" };
   }
 
   try {
