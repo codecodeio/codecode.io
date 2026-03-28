@@ -242,16 +242,15 @@ export const handler: Handler = async (event) => {
       };
     }
 
-    // Check if post was published today or yesterday (UTC) to handle timezone offsets
+    // TEMP: extended to 4 days for newsletter send test — revert to 2 after
     const postDate = new Date(latestPost.pubDate);
     const now = new Date();
     const postDateStr = postDate.toISOString().split("T")[0];
-    const todayStr = now.toISOString().split("T")[0];
-    const yesterdayStr = new Date(now.getTime() - 24 * 60 * 60 * 1000)
+    const cutoffStr = new Date(now.getTime() - 4 * 24 * 60 * 60 * 1000)
       .toISOString()
       .split("T")[0];
 
-    if (postDateStr !== todayStr && postDateStr !== yesterdayStr) {
+    if (postDateStr < cutoffStr) {
       console.log(
         `No new posts to share (latest post: ${latestPost.link}, pubDate: ${postDateStr})`
       );
