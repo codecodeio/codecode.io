@@ -27,3 +27,6 @@ pnpm-debug.log*
 .netlify
 .vercel
 .wrangler
+
+# Claude Code local settings (personal permissions, not project-wide)
+.claude/
