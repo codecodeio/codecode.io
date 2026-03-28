@@ -15,7 +15,8 @@ Shout out to [Cosmic Themes](https://cosmicthemes.com/) for making beautiful, mo
 | 1.0.2     | Resend Integration for Subscriptions           | Complete    |
 | 1.0.3     | Double opt-in sign up with Supabase/Resend     | Complete    |
 | 1.0.4     | Auto share published articles to Bluesky       | Complete    |
-| **1.0.5** | **Tip jar for user support/donations**         | **Upcoming** |
+| 1.0.5     | Auto email newsletter on new article publish   | Complete    |
+| **1.0.6** | **Tip jar for user support/donations**         | **Upcoming** |
 
 ---
 
@@ -57,15 +58,20 @@ ntl open
 # Start Netlify dev server (required for function testing)
 netlify dev
 
-# In another terminal, test the Bluesky auto-share function
-netlify functions:invoke share-to-bluesky --payload '{}'  
+# In another terminal, test individual functions
+netlify functions:invoke share-to-bluesky --payload '{}'
+netlify functions:invoke share-to-twitter --payload '{}'
+netlify functions:invoke send-newsletter --payload '{}'
+
+# Send a test newsletter to yourself (bypasses recency check, sends to one address)
+netlify functions:invoke send-newsletter --payload '{"test_email": "you@example.com"}'
 ```
 
 **Expected results:**
-- `No new posts to share` - Latest post is older than 10 minutes (normal)
-- `Already posted` - Post was already shared (Supabase deduplication)
+- `No new posts to share` - Latest post is not from today or yesterday (normal)
+- `Already posted` / `Newsletter already sent` - Post was already shared (Supabase deduplication)
 - `No posts found in RSS` - RSS feed is empty or unavailable
-- `{"success": true, ...}` - Post was created successfully
+- `{"success": true, ...}` - Post was shared / newsletter was sent successfully
 
 ---
 
@@ -135,4 +141,5 @@ git push origin main
 | `SUPABASE_SECRET_KEY`  | Supabase secret key (server-side, bypasses RLS)  |
 | `BLUESKY_HANDLE`       | Bluesky handle (e.g., yourname.bsky.social)      |
 | `BLUESKY_APP_PASSWORD` | Bluesky app-specific password                    |
+| `RESEND_AUDIENCE_ID`   | Resend audience ID for newsletter broadcasts     |
 
