@@ -23,13 +23,16 @@ npm run lint             # Run ESLint only
 npm run config-i18n      # Interactive CLI wizard to configure i18n (locale folders, config files)
 npm run remove-keystatic # Removes Keystatic CMS entirely (moves files, updates config, uninstalls packages)
 
-# Netlify CLI (use pnpm, not npm)
-pnpm install             # Install dependencies for Netlify
+# Installing packages — ALWAYS use pnpm, never npm install
+pnpm add <package>       # Add a new dependency
+pnpm install             # Install / sync all dependencies
+
+# Netlify CLI
 netlify dev              # Local dev with Netlify functions
 netlify functions:invoke <function-name> --payload '{}'  # Test a function
 ```
 
-**Note:** Netlify CLI requires pnpm. Always use `pnpm install` instead of `npm install` when working with Netlify functions.
+**Critical:** Always use `pnpm add` / `pnpm install` to install packages — never `npm install`. Netlify CI runs `pnpm install --frozen-lockfile`, so using `npm install` updates `package.json` but not `pnpm-lock.yaml`, causing the build to fail with `ERR_PNPM_OUTDATED_LOCKFILE`.
 
 ## Architecture
 
